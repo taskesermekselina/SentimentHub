@@ -1,0 +1,265 @@
+@model SentimentHub.Web.Models.ComparisonViewModel
+
+@{
+    ViewData["Title"] = "Karşılaştırma Sonucu";
+    int colSize = 12 / Model.Products.Count;
+}
+
+<style>
+    .comparison-card {
+        height: 100%;
+        border: none;
+        box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+        transition: transform 0.2s;
+    }
+    .score-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0 auto;
+        border: 4px solid #f8f9fc;
+    }
+    .score-good { background-color: #1cc88a; color: white; }
+    .score-avg { background-color: #f6c23e; color: white; }
+    .score-bad { background-color: #e74a3b; color: white; }
+    
+    .cat-row { padding: 8px 0; border-bottom: 1px solid #eee; }
+    .cat-label { font-size: 0.9rem; color: #555; }
+    .cat-val { font-weight: bold; }
+
+    .rec-box { background-color: #f8f9fc; border-left: 4px solid #4e73df; padding: 10px; margin-top: 5px; font-size: 0.85rem; }
+    .profile-card { border: 1px solid #e3e6f0; border-radius: 0.35rem; padding: 15px; text-align: center; background: #fff; }
+    .profile-winner { color: #4e73df; font-weight: bold; margin-top: 5px; font-size: 1.1rem; }
+</style>
+
+<div class="container-fluid">
+    
+    <!-- Page Header -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Karşılaştırmalı Analiz Raporu</h1>
+        <button onclick="downloadPdf()" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-download fa-sm text-white-50"></i> PDF Raporu İndir
+        </button>
+    </div>
+
+    <!-- 1. PRODUCTS OVERVIEW & SCORES -->
+    <div class="row">
+        @foreach (var p in Model.Products)
+        {
+            <div class="col-md-@colSize mb-4">
+                <div class="card comparison-card">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary text-white">
+                        <h6 class="m-0 font-weight-bold">@p.Name</h6>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            @{
+                                var scoreClass = p.OverallScore >= 4.0 ? "score-good" : p.OverallScore >= 3.0 ? "score-avg" : "score-bad";
+                            }
+                            <div class="score-circle @scoreClass">
+                                @p.OverallScore
+                            </div>
+                            <div class="mt-2 text-xs font-weight-bold text-uppercase text-secondary">Genel Puan</div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6 border-right">
+                                <h4 class="font-weight-bold text-success">@p.PositiveRate%</h4>
+                                <span class="small text-muted">Olumlu</span>
+                            </div>
+                            <div class="col-6">
+                                <h4 class="font-weight-bold text-danger">@p.NegativeRate%</h4>
+                                <span class="small text-muted">Olumsuz</span>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Category Scores -->
+                        <div class="text-left mt-3">
+                            <h6 class="font-weight-bold text-gray-800 mb-3">Kategori Puanları</h6>
+                            <div class="cat-row d-flex justify-content-between">
+                                <span class="cat-label">Ürün Kalitesi</span>
+                                <span class="cat-val">@p.CategoryScores.ProductQuality/5</span>
+                            </div>
+                            <div class="cat-row d-flex justify-content-between">
+                                <span class="cat-label">Fiyat/Performans</span>
+                                <span class="cat-val">@p.CategoryScores.PricePerformance/5</span>
+                            </div>
+                            <div class="cat-row d-flex justify-content-between">
+                                <span class="cat-label">Kargo</span>
+                                <span class="cat-val">@p.CategoryScores.Shipping/5</span>
+                            </div>
+                            <div class="cat-row d-flex justify-content-between">
+                                <span class="cat-label">Satıcı</span>
+                                <span class="cat-val">@p.CategoryScores.Seller/5</span>
+                            </div>
+                             <div class="cat-row d-flex justify-content-between">
+                                <span class="cat-label">Deneyim</span>
+                                <span class="cat-val">@p.CategoryScores.UsageExperience/5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- 2. ANALYTICAL INSIGHTS ROW -->
+    <div class="row">
+        <!-- Distinctive Features -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow h-100 border-left-info">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-info">Ayırt Edici Özellik Analizi</h6>
+                </div>
+                <div class="card-body">
+                    @if(Model.DistinctiveFeatures.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach(var feat in Model.DistinctiveFeatures)
+                            {
+                                <li class="list-group-item"><i class="fas fa-check text-info mr-2"></i> @feat</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Ürünler arasında kategorik bazda çok belirgin (>= 1.0) fark tespit edilemedi.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        
+         <!-- Preference Reasons -->
+        <div class="col-lg-6 mb-4">
+             <div class="card shadow h-100 border-left-success">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-success">Tercih Edilme Sebepleri (Why A > B)</h6>
+                </div>
+                <div class="card-body">
+                     @if(Model.PreferenceReasons.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach(var reason in Model.PreferenceReasons)
+                            {
+                                <li class="list-group-item"><i class="fas fa-thumbs-up text-success mr-2"></i> @reason</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Memnuniyet oranları birbirine yakın olduğu için, sadece puana dayalı kesin bir tercih sebebi oluşmadı.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. STRENGTHS, WEAKNESSES & RECOMMENDATIONS -->
+    <div class="row">
+         @foreach (var p in Model.Products)
+         {
+             <div class="col-md-@colSize mb-4">
+                 <div class="card shadow h-100">
+                      <div class="card-header py-3 bg-light">
+                        <h6 class="m-0 font-weight-bold text-primary">@p.Name: Detaylı Analiz</h6>
+                      </div>
+                      <div class="card-body">
+                          <!-- Pros -->
+                          <div class="mb-4">
+                              <h6 class="font-weight-bold text-success"><i class="fas fa-plus-circle"></i> Güçlü Yönler</h6>
+                              <ul class="small mb-0 pl-3">
+                                  @foreach(var s in p.Strengths) { <li>@s</li> }
+                              </ul>
+                          </div>
+                          <hr>
+                          <!-- Cons & Recommendations -->
+                          <div>
+                              <h6 class="font-weight-bold text-danger"><i class="fas fa-minus-circle"></i> Zayıf Yönler ve Öneriler</h6>
+                              <div class="mt-2">
+                                  @for(int i=0; i < p.Weaknesses.Count; i++)
+                                  {
+                                      <div class="mb-3">
+                                          <div class="text-danger small font-weight-bold">• @p.Weaknesses[i]</div>
+                                          @if(i < p.Recommendations.Count)
+                                          {
+                                              <div class="rec-box">
+                                                  <i class="fas fa-lightbulb text-warning mr-1"></i>
+                                                  @p.Recommendations[i]
+                                              </div>
+                                          }
+                                      </div>
+                                  }
+                              </div>
+                          </div>
+                      </div>
+                 </div>
+             </div>
+         }
+    </div>
+
+    <!-- 4. DECISION SUPPORT & PROFILES -->
+    <div class="card shadow mb-4 border-bottom-primary">
+         <div class="card-header py-3 text-center bg-gray-100">
+            <h5 class="m-0 font-weight-bold text-gray-800">KARAR DESTEK VE SONUÇ</h5>
+        </div>
+        <div class="card-body">
+            <!-- Profiles -->
+            <div class="row mb-4 justify-content-center">
+                 @foreach(var kvp in Model.UserProfiles)
+                 {
+                     <div class="col-md-4 mb-3">
+                         <div class="profile-card h-100">
+                             <div class="text-secondary small text-uppercase font-weight-bold">@kvp.Key</div>
+                             <div class="profile-winner">@kvp.Value</div>
+                         </div>
+                     </div>
+                 }
+            </div>
+            
+            <div class="alert alert-primary p-4 border-0 bg-primary text-white rounded shadow-sm">
+                <h5 class="font-weight-bold"><i class="fas fa-info-circle mr-2"></i>Özet ve Tavsiye</h5>
+                <p class="mb-0 lead" style="font-size: 1.1rem;">
+                    @Model.DecisionSupport
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function downloadPdf() {
+            var analysisIds = @Html.Raw(Json.Serialize(Model.Products.Select(p => p.AnalysisId)));
+            
+            fetch('/Comparison/DownloadPdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Assuming AntiForgery token handling if needed, but for simplicity relying on auth cookie
+                },
+                body: JSON.stringify(analysisIds)
+            })
+            .then(response => {
+                if (response.ok) return response.blob();
+                throw new Error('PDF generation failed.');
+            })
+            .then(blob => {
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = "KarsilastirmaRaporu.pdf";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            })
+            .catch(err => alert("Hata: " + err));
+        }
+    </script>
+}

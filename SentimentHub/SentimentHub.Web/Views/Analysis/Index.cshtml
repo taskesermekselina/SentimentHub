@@ -1,0 +1,150 @@
+@model IEnumerable<SentimentHub.Web.Models.Analysis>
+@{
+    ViewData["Title"] = "Raporlarım";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold text-gray-800">Kayıtlı Raporlar</h3>
+    <button class="btn btn-primary-custom btn-sm" data-bs-toggle="modal" data-bs-target="#analysisModal">
+        <i class="fas fa-plus me-1"></i> Yeni Analiz
+    </button>
+</div>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <div class="col-12 text-center py-5">
+            <div class="mb-3">
+                <i class="fas fa-folder-open fa-3x text-gray-300"></i>
+            </div>
+            <h5 class="text-muted">Henüz hiç raporunuz yok.</h5>
+            <p class="small text-muted">İlk analizinizi başlatmak için yukarıdaki butonu kullanın.</p>
+        </div>
+    }
+
+    @foreach (var businessGroup in Model.GroupBy(a => a.Business))
+    {
+        var business = businessGroup.Key;
+        if (business == null) continue;
+
+        <div class="card border-0 shadow-sm rounded-4 mb-5">
+            <div class="card-header bg-white p-4 border-bottom border-light">
+                <div class="d-flex align-items-center">
+                    <div class="bg-primary bg-opacity-10 text-primary p-3 rounded-circle me-3">
+                        <i class="fas fa-store fa-lg"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1">@business.Name</h5>
+                        <a href="@business.GoogleMapsUrl" target="_blank" class="text-muted small text-decoration-none">
+                            <i class="fas fa-external-link-alt me-1"></i> Ürün/Mağaza Linki
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4 bg-light bg-opacity-50">
+                <div class="row">
+                    @foreach (var analysis in businessGroup.OrderByDescending(a => a.Date))
+                    {
+                        <div class="col-xl-4 col-md-6 mb-4">
+                            <div class="card border-0 shadow-sm h-100 hover-shadow transition-all">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        @if (analysis.OverallScore >= 4.0)
+                                        {
+                                            <span class="badge bg-success bg-opacity-10 text-success small px-2 py-1">Pozitif</span>
+                                        }
+                                        else if (analysis.OverallScore <= 2.5)
+                                        {
+                                            <span class="badge bg-danger bg-opacity-10 text-danger small px-2 py-1">Negatif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning bg-opacity-10 text-warning small px-2 py-1">Nötr</span>
+                                        }
+                                        <small class="text-muted"><i class="far fa-clock me-1"></i> @analysis.Date.ToLocalTime().ToString("g")</small>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <h4 class="fw-bold mb-0 me-2">@analysis.OverallScore.ToString("F1")</h4>
+                                            <div class="text-warning small">
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <span class="text-muted small">@analysis.TotalReviews Yorum</span>
+                                    </div>
+
+                                    <div class="d-flex gap-2">
+                                         @if(analysis.Status == SentimentHub.Web.Models.AnalysisStatus.Completed)
+                                         {
+                                            <a asp-action="Details" asp-route-id="@analysis.Id" class="btn btn-outline-primary btn-sm rounded-pill flex-grow-1">Raporu İncele</a>
+                                         }
+                                         else if (analysis.Status == SentimentHub.Web.Models.AnalysisStatus.Failed)
+                                         {
+                                            <button disabled class="btn btn-outline-danger btn-sm rounded-pill flex-grow-1">Başarısız</button>
+                                         }
+                                         else
+                                         {
+                                            <button disabled class="btn btn-outline-secondary btn-sm rounded-pill flex-grow-1"><span class="spinner-border spinner-border-sm"></span></button>
+                                         }
+
+                                         <!-- Delete Button (Trigger Modal) -->
+                                         <form asp-action="Delete" asp-route-id="@analysis.Id" method="post" class="d-inline" id="deleteForm_@analysis.Id">
+                                             <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Raporu Sil" onclick="showDeleteModal('@analysis.Id')">
+                                                 <i class="fas fa-trash-alt"></i>
+                                             </button>
+                                         </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    // Empty State logic logic above covers this technically but good to keep structure
+}
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-body p-4 text-center">
+                <div class="mb-3 text-danger">
+                    <i class="fas fa-exclamation-circle fa-4x opacity-75"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-2">Emin misiniz?</h4>
+                <p class="text-muted mb-4">Bu raporu kalıcı olarak silmek üzeresiniz. Bu işlem geri alınamaz.</p>
+                <div class="d-flex justify-content-center gap-2">
+                    <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-danger rounded-pill px-4 fw-bold" id="confirmDeleteBtn">
+                        <i class="fas fa-trash-alt me-2"></i>Evet, Sil
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let targetFormId = null;
+
+        function showDeleteModal(analysisId) {
+            targetFormId = 'deleteForm_' + analysisId;
+            var deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
+            deleteModal.show();
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (targetFormId) {
+                document.getElementById(targetFormId).submit();
+            }
+        });
+    </script>
+}

@@ -1,0 +1,96 @@
+@model SentimentHub.Web.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - SentimentHub</title>
+     <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/css/dashboard.css" rel="stylesheet">
+     <style>
+        body {
+            background: url('/img/bg-auth.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        /* Overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(78, 115, 223, 0.1);
+            z-index: -1;
+        }
+        .card-login {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.175);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-7 col-md-9">
+                <div class="card card-login o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4 fw-bold">Hesap Oluştur</h1>
+                                <p class="text-muted mb-4 small">SentimentHub'a katılın ve analizlere başlayın.</p>
+                            </div>
+                            <form class="user" asp-controller="Account" asp-action="Register" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger small mb-2"></div>
+                                <!-- Removed FirstName/LastName as they are not in the ViewModel -->
+                                <div class="form-group mb-3">
+                                    <input asp-for="Email" class="form-control form-control-lg rounded-pill fs-6" placeholder="E-posta Adresi">
+                                    <span asp-validation-for="Email" class="text-danger small ms-2"></span>
+                                </div>
+                                <div class="form-group row mb-4">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input asp-for="Password" type="password" class="form-control form-control-lg rounded-pill fs-6" placeholder="Şifre">
+                                        <span asp-validation-for="Password" class="text-danger small ms-2"></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input asp-for="ConfirmPassword" type="password" class="form-control form-control-lg rounded-pill fs-6" placeholder="Şifre Tekrar">
+                                        <span asp-validation-for="ConfirmPassword" class="text-danger small ms-2"></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary-custom btn-lg w-100 rounded-pill mb-3">
+                                    Kayıt Ol
+                                </button>
+                                <hr>
+                                <div class="text-center">
+                                    <a class="small text-decoration-none" asp-action="Login">Zaten hesabınız var mı? Giriş Yapın!</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

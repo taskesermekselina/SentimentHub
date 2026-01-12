@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raporlarım - SentimentHub</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-white border-end" id="sidebar-wrapper">
+            <div class="sidebar-heading">
+                <i class="fas fa-brain fa-lg"></i> SentimentHub
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="index.html" class="list-group-item list-group-item-action">
+                    <i class="fas fa-home me-2"></i> Anasayfa
+                </a>
+                <a href="my_reports.html" class="list-group-item list-group-item-action active">
+                    <i class="fas fa-file-alt me-2"></i> Raporlarım
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                    <i class="fas fa-cog me-2"></i> Ayarlar
+                </a>
+                <a href="login.html" class="list-group-item list-group-item-action text-danger">
+                    <i class="fas fa-sign-out-alt me-2"></i> Çıkış Yap
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-custom border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary-custom" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <button class="btn btn-outline-primary btn-sm me-3" data-bs-toggle="modal"
+                            data-bs-target="#analysisModal">
+                            <i class="fas fa-search-plus me-1"></i> Yeni Analiz
+                        </button>
+                        <img src="https://ui-avatars.com/api/?name=Admin+User&background=4e73df&color=fff"
+                            class="rounded-circle" width="32" height="32">
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="container-fluid px-4 py-4">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold text-gray-800">Kayıtlı Raporlar</h3>
+                </div>
+
+                <div class="row">
+                    <!-- Report Card 1 -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card card-custom h-100">
+                            <div class="card-header-custom bg-white border-0 pt-3">
+                                <span class="badge bg-success bg-opacity-10 text-success small px-2 py-1">Pozitif</span>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i> 2 saat önce</small>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="fw-bold text-dark mb-2">Apple iPhone 14 Pro Max </h5>
+                                <p class="text-muted small mb-3 text-truncate">
+                                    https://www.trendyol.com/apple/iphone-14-pro-max...</p>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="small">
+                                        <span class="fw-bold text-dark">4.5</span> <i
+                                            class="fas fa-star text-warning"></i>
+                                    </div>
+                                    <div class="small text-muted">128 Yorum</div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="report.html" class="btn btn-outline-primary btn-sm rounded-pill">Raporu
+                                        Görüntüle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Card 2 -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card card-custom h-100">
+                            <div class="card-header-custom bg-white border-0 pt-3">
+                                <span class="badge bg-danger bg-opacity-10 text-danger small px-2 py-1">Negatif</span>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i> 1 gün önce</small>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="fw-bold text-dark mb-2">XYZ Oyuncu Koltuğu</h5>
+                                <p class="text-muted small mb-3 text-truncate">https://www.hepsiburada.com/xyz-koltuk...
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="small">
+                                        <span class="fw-bold text-dark">2.1</span> <i
+                                            class="fas fa-star text-warning"></i>
+                                    </div>
+                                    <div class="small text-muted">50 Yorum</div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="report.html" class="btn btn-outline-primary btn-sm rounded-pill">Raporu
+                                        Görüntüle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Card 3 -->
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card card-custom h-100">
+                            <div class="card-header-custom bg-white border-0 pt-3">
+                                <span class="badge bg-warning bg-opacity-10 text-warning small px-2 py-1">Nötr</span>
+                                <small class="text-muted"><i class="far fa-clock me-1"></i> 3 gün önce</small>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="fw-bold text-dark mb-2">Samsung Galaxy S23</h5>
+                                <p class="text-muted small mb-3 text-truncate">https://www.amazon.com.tr/samsung-s23...
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="small">
+                                        <span class="fw-bold text-dark">3.8</span> <i
+                                            class="fas fa-star text-warning"></i>
+                                    </div>
+                                    <div class="small text-muted">200 Yorum</div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="report.html" class="btn btn-outline-primary btn-sm rounded-pill">Raporu
+                                        Görüntüle</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal (Same as Index) -->
+    <div class="modal fade" id="analysisModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-light border-0">
+                    <h5 class="modal-title fw-bold text-primary">Yeni Analiz Başlat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">ÜRÜN LİNKİ</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i
+                                        class="fas fa-link text-muted"></i></span>
+                                <input type="url" class="form-control border-start-0" placeholder="https://..."
+                                    required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-muted small fw-bold">YORUM SAYISI LİMİTİ</label>
+                            <select class="form-select">
+                                <option value="50">50 Yorum</option>
+                                <option value="100" selected>100 Yorum</option>
+                                <option value="200">200 Yorum</option>
+                                <option value="500">500 Yorum</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary-custom py-2" id="startAnalysisBtn">
+                                Analizi Başlat <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

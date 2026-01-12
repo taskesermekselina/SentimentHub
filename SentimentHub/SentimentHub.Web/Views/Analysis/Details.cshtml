@@ -1,0 +1,589 @@
+@model SentimentHub.Web.Models.Analysis
+
+@{
+    ViewData["Title"] = "Analysis Dashboard";
+    var positiveCount = Model.Reviews.Count(r => r.Sentiment == SentimentHub.Web.Models.SentimentType.Positive);
+    var neutralCount = Model.Reviews.Count(r => r.Sentiment == SentimentHub.Web.Models.SentimentType.Neutral);
+    var negativeCount = Model.Reviews.Count(r => r.Sentiment == SentimentHub.Web.Models.SentimentType.Negative);
+    
+    // Structure data for JS
+    var labels = new[] { "Positive", "Neutral", "Negative" };
+    var data = new[] { positiveCount, neutralCount, negativeCount };
+    
+    // Aspect Analysis - Turkish Mapping
+    var aspectMap = new Dictionary<string, string> {
+        { "ProductQuality", "Ürün Kalitesi" },
+        { "PricePerformance", "Fiyat / Performans" },
+        { "Delivery", "Kargo ve Teslimat" },
+        { "PackagingSeller", "Satıcı / Paketleme" },
+        { "GeneralSatisfaction", "Genel Memnuniyet" }
+    };
+
+    var aspectGroups = Model.Reviews.SelectMany(r => r.AspectResults)
+        .GroupBy(a => a.Aspect)
+        .Select(g => new { 
+            Aspect = aspectMap.ContainsKey(g.Key.ToString()) ? aspectMap[g.Key.ToString()] : g.Key.ToString(), 
+            Positive = g.Count(x => x.Sentiment == SentimentHub.Web.Models.SentimentType.Positive),
+            Negative = g.Count(x => x.Sentiment == SentimentHub.Web.Models.SentimentType.Negative)
+        }).ToList();
+}
+
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold mb-0">@Model.Business?.Name</h2>
+                <span class="text-muted"><i class="bi bi-geo-alt"></i> Dashboard Report - @Model.Date.ToShortDateString()</span>
+            </div>
+            <div>
+                 <a href="javascript:void(0)" onclick="downloadPdfWithCharts(@Model.Id)" class="btn btn-outline-secondary me-2"><i class="bi bi-file-earmark-pdf"></i> Download Report (PDF)</a>
+                 <a asp-action="Index" class="btn btn-primary"><i class="bi bi-arrow-left"></i> Back to List</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #001f3f 0%, #003366 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="text-uppercase mb-1 opacity-75 small fw-bold">Genel Değerlendirme</h6>
+                            <!-- Score 1-5 -->
+                            <h2 class="display-4 fw-bold mb-0">@Model.OverallScore.ToString("F1")<span class="fs-4 text-white-50">/5</span></h2>
+                        </div>
+                        <div class="bg-white bg-opacity-10 p-2 rounded-3">
+                            <i class="bi bi-star-fill fs-3 text-warning"></i>
+                        </div>
+                    </div>
+                    <!-- Stars Display -->
+                    <div class="mb-2 text-warning fs-5">
+                        @for(int i=1; i<=5; i++)
+                        {
+                            if(Model.OverallScore >= i) { <i class="bi bi-star-fill"></i> }
+                            else if(Model.OverallScore > i-1) { <i class="bi bi-star-half"></i> }
+                            else { <i class="bi bi-star"></i> }
+                        }
+                    </div>
+                    <small class="d-block opacity-75">Yapay zeka değerlendirmesi</small>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="text-uppercase text-muted small fw-bold mb-0">Toplam Yorum</h6>
+                        <span class="text-success small bg-success-subtle px-2 py-1 rounded-pill"><i class="bi bi-arrow-up-short"></i> Güncel</span>
+                    </div>
+                    <h2 class="display-6 fw-bold text-dark mb-0">@Model.TotalReviews</h2>
+                    <small class="text-muted">Adet yorum analiz edildi</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                     <h6 class="text-uppercase text-muted small fw-bold mb-3">Duygu Dağılımı</h6>
+                     <div class="d-flex align-items-center">
+                         <div class="flex-grow-1 me-3">
+                             <div class="d-flex justify-content-between small mb-1">
+                                 <span class="text-success fw-bold">Pozitif</span>
+                                 <span>@positiveCount</span>
+                             </div>
+                             <div class="progress mb-2" style="height: 6px;">
+                                 <div class="progress-bar bg-success" style="width: @(Model.TotalReviews > 0 ? (positiveCount * 100 / Model.TotalReviews) : 0)%"></div>
+                             </div>
+                             
+                             <div class="d-flex justify-content-between small mb-1">
+                                 <span class="text-danger fw-bold">Negatif</span>
+                                 <span>@negativeCount</span>
+                             </div>
+                             <div class="progress" style="height: 6px;">
+                                 <div class="progress-bar bg-danger" style="width: @(Model.TotalReviews > 0 ? (negativeCount * 100 / Model.TotalReviews) : 0)%"></div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-md-3">
+            <div class="card border-0 shadow-sm h-100 rounded-4">
+                <div class="card-body p-4">
+                    <h6 class="text-uppercase text-muted small fw-bold mb-2">Baskın Duygu</h6>
+                    @if(positiveCount >= negativeCount && positiveCount >= neutralCount)
+                    {
+                        <div class="d-flex align-items-center text-success">
+                            <i class="bi bi-emoji-smile-fill display-5 me-3"></i>
+                            <div>
+                                <h3 class="fw-bold mb-0">Pozitif</h3>
+                                <small class="text-muted">Müşteriler mutlu</small>
+                            </div>
+                        </div>
+                    }
+                    else if(negativeCount > positiveCount)
+                    {
+                         <div class="d-flex align-items-center text-danger">
+                            <i class="bi bi-emoji-frown-fill display-5 me-3"></i>
+                            <div>
+                                <h3 class="fw-bold mb-0">Negatif</h3>
+                                <small class="text-muted">Aksiyon gerekli</small>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                         <div class="d-flex align-items-center text-warning">
+                            <i class="bi bi-emoji-neutral-fill display-5 me-3"></i>
+                            <div>
+                                <h3 class="fw-bold mb-0">Nötr</h3>
+                                <small class="text-muted">Dengeli yorumlar</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Strategic Report (AI Consultant) -->
+    @if(!string.IsNullOrEmpty(Model.SummaryJson))
+    {
+        var summary = System.Text.Json.JsonSerializer.Deserialize<SentimentHub.Web.DTOs.SummaryResultDto>(Model.SummaryJson);
+        if(summary != null)
+        {
+             <div class="card border-0 shadow-sm rounded-4 mb-5 overflow-hidden">
+                <div class="card-header bg-navy text-white py-3 px-4">
+                    <div class="d-flex align-items-center">
+                         <div class="bg-white text-navy rounded-circle p-2 me-3 d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+                             <i class="bi bi-robot fs-5"></i>
+                         </div>
+                         <div>
+                             <h5 class="mb-0 fw-bold">Yapay Zeka Değerlendirmesi</h5>
+                             <small class="text-white-50">Kapsamlı analiz raporu</small>
+                         </div>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <!-- ROW 1 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-success-subtle rounded-4 h-100 border border-success-subtle">
+                                <h6 class="text-success fw-bold mb-3 d-flex align-items-center"><i class="bi bi-check-circle-fill me-2 fs-5"></i> Olumlu Yönler</h6>
+                                <ul class="list-unstyled mb-0">
+                                    @foreach(var item in summary.Strengths)
+                                    {
+                                        <li class="mb-2 d-flex align-items-start"><i class="bi bi-check2 me-2 mt-1"></i> @item</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-danger-subtle rounded-4 h-100 border border-danger-subtle">
+                                <h6 class="text-danger fw-bold mb-3 d-flex align-items-center"><i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i> Olumsuz Yönler</h6>
+                                <ul class="list-unstyled mb-0">
+                                    @foreach(var item in summary.Weaknesses)
+                                    {
+                                        <li class="mb-2 d-flex align-items-start"><i class="bi bi-x me-2 mt-1"></i> @item</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- ROW 2 -->
+                        <div class="col-md-6">
+                            <div class="p-3 bg-info-subtle rounded-4 h-100 border border-info-subtle">
+                                <h6 class="text-info-emphasis fw-bold mb-3 d-flex align-items-center"><i class="bi bi-bar-chart-fill me-2 fs-5"></i> Kategori Puanları</h6>
+                                @if(summary.CategoryScores != null)
+                                {
+                                    <div class="d-flex justify-content-between mb-2"><span>Kalite:</span> <span class="fw-bold">@summary.CategoryScores.ProductQuality/5</span></div>
+                                    <div class="d-flex justify-content-between mb-2"><span>Fiyat/Perf:</span> <span class="fw-bold">@summary.CategoryScores.PricePerformance/5</span></div>
+                                    <div class="d-flex justify-content-between mb-2"><span>Kargo:</span> <span class="fw-bold">@summary.CategoryScores.Shipping/5</span></div>
+                                    <div class="d-flex justify-content-between mb-2"><span>Satıcı:</span> <span class="fw-bold">@summary.CategoryScores.Seller/5</span></div>
+                                    <div class="d-flex justify-content-between"><span>Deneyim:</span> <span class="fw-bold">@summary.CategoryScores.UsageExperience/5</span></div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="p-3 bg-warning-subtle rounded-4 h-100 border border-warning-subtle">
+                                <h6 class="text-warning-emphasis fw-bold mb-3 d-flex align-items-center"><i class="bi bi-lightbulb-fill me-2 fs-5"></i> İşletmeye Yönelik İyileştirici Öneriler</h6>
+                                <ul class="list-unstyled mb-0">
+                                    @if(summary.Recommendations != null && summary.Recommendations.Any())
+                                    {
+                                        foreach(var rec in summary.Recommendations)
+                                        {
+                                            <li class="mb-2 d-flex align-items-start"><i class="bi bi-arrow-right-circle-fill me-2 mt-1 opacity-75"></i> @rec</li>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <li class="text-muted fst-italic">Henüz öneri oluşturulmadı.</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+        }
+    }
+
+    <!-- Charts Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Duygu Grafiği</h5>
+                     <div style="height: 300px;">
+                        <canvas id="sentimentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4">Kategori Bazlı Analiz (Aspects)</h5>
+                    <div style="height: 300px;">
+                        <canvas id="aspectChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reviews Section (Modern List) -->
+    <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center rounded-top-4">
+            <div>
+                <h5 class="fw-bold mb-1">Müşteri Yorumları</h5>
+                <p class="text-muted small mb-0" id="reviewCountLabel">Görüntülenen: 10 / @Model.Reviews.Count</p>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-light rounded-pill border px-3 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="filterDropdownBtn">
+                    <i class="bi bi-filter me-2"></i>Filtrele: Tümü
+                </button>
+                <ul class="dropdown-menu border-0 shadow rounded-4" aria-labelledby="filterDropdownBtn">
+                    <li><a class="dropdown-item" href="javascript:void(0)" onclick="filterReviews('all')">Tümü</a></li>
+                    <li><a class="dropdown-item text-success" href="javascript:void(0)" onclick="filterReviews('positive')">Sadece Pozitif</a></li>
+                    <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="filterReviews('negative')">Sadece Negatif</a></li>
+                    <li><a class="dropdown-item text-warning" href="javascript:void(0)" onclick="filterReviews('neutral')">Sadece Nötr</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="list-group list-group-flush" id="reviewsList">
+                 @{ int index = 0; }
+                 @foreach (var item in Model.Reviews.OrderByDescending(r => r.ReviewDate))
+                 {
+                     // Show only first 10 initially, others hidden
+                     var hiddenClass = index >= 10 ? "d-none" : "";
+                     <div class="list-group-item p-4 border-bottom border-light hover-bg-light transition-all review-item @hiddenClass" data-sentiment="@item.Sentiment.ToString().ToLower()">
+                        <div class="d-flex flex-column flex-md-row gap-4">
+                            <!-- Avatar & User Info - Fixed Width on Desktop -->
+                            <div style="min-width: 200px;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div class="avatar bg-light text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold fs-5 shadow-sm border" style="width: 48px; height: 48px;">
+                                        @item.AuthorName?.Substring(0,1).ToUpper()
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-0 fw-bold text-dark">@item.AuthorName</h6>
+                                        <small class="text-muted d-block">
+                                            @if(item.ReviewDate.HasValue){ @item.ReviewDate.Value.ToShortDateString() } else { <span class="fst-italic">Tarih yok</span>}
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Rating & Badge -->
+                                <div class="d-flex align-items-center gap-2 mt-2">
+                                     @if(item.Sentiment == SentimentHub.Web.Models.SentimentType.Positive)
+                                     {
+                                         <span class="badge bg-success-subtle text-success border border-success-subtle rounded-3 px-2">Pozitif</span>
+                                     }
+                                     else if(item.Sentiment == SentimentHub.Web.Models.SentimentType.Negative)
+                                     {
+                                         <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-3 px-2">Negatif</span>
+                                     }
+                                     else
+                                     {
+                                         <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-3 px-2">Nötr</span>
+                                     }
+                                     <small class="text-muted" style="font-size: 0.75rem;">Güven: % @((item.ConfidenceScore * 100).ToString("0"))</small>
+                                </div>
+                            </div>
+
+                            <!-- Comment Content -->
+                            <div class="flex-grow-1">
+                                <div class="bg-light bg-opacity-50 p-3 rounded-3 mb-2 border border-light">
+                                     <p class="mb-0 text-secondary" style="line-height: 1.6;">
+                                         <i class="fas fa-quote-left text-muted opacity-25 me-2"></i>
+                                         @item.Text
+                                     </p>
+                                </div>
+
+                                <!-- Aspects (Categories) -->
+                                @if(item.AspectResults != null && item.AspectResults.Any())
+                                {
+                                    <div class="d-flex flex-wrap gap-2 mt-2">
+                                        @foreach(var asp in item.AspectResults)
+                                        {
+                                            var aspectName = asp.Aspect.ToString();
+                                            if(aspectMap.ContainsKey(aspectName)) { aspectName = aspectMap[aspectName]; }
+
+                                            <span class="badge rounded-pill fw-normal py-1 px-3
+                                                  @(asp.Sentiment == SentimentHub.Web.Models.SentimentType.Positive ? "bg-success bg-opacity-10 text-success border border-success-subtle" : 
+                                                    (asp.Sentiment == SentimentHub.Web.Models.SentimentType.Negative ? "bg-danger bg-opacity-10 text-danger border border-danger-subtle" : "bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle"))">
+                                                @aspectName
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                     </div>
+                     index++;
+                 }
+            </div>
+             <div id="noReviewsMessage" class="text-center py-5 d-none">
+                <i class="bi bi-filter-circle fs-1 text-muted opacity-25"></i>
+                <p class="text-muted mt-2">Bu filtreye uygun yorum bulunamadı.</p>
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center p-4 border-top border-light" id="loadMoreContainer">
+                <button class="btn btn-outline-primary rounded-pill px-5 fw-bold" onclick="loadMoreReviews()">
+                    <i class="bi bi-arrow-down-circle me-2"></i>Daha Fazla Göster
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // --- Pagination / Load More ---
+        let currentVisibleLimit = 10;
+        const allReviews = document.querySelectorAll('.review-item');
+        
+        function updateReviewCountLabel() {
+             const visible = document.querySelectorAll('.review-item:not(.d-none)').length;
+             const total = allReviews.length;
+             document.getElementById('reviewCountLabel').innerText = `Görüntülenen: ${visible} / ${total}`;
+        }
+
+        function loadMoreReviews() {
+            let revealed = 0;
+            // Find currently hidden items and reveal up to 10
+            for(let i=0; i<allReviews.length; i++) {
+                if(allReviews[i].classList.contains('d-none') && !allReviews[i].classList.contains('filtered-hidden')) {
+                    allReviews[i].classList.remove('d-none');
+                    revealed++;
+                    if(revealed >= 10) break;
+                }
+            }
+            
+            // If no more hidden items (that aren't filtered), hide button
+            if (document.querySelectorAll('.review-item.d-none:not(.filtered-hidden)').length === 0) {
+                document.getElementById('loadMoreContainer').style.display = 'none';
+            }
+            
+            updateReviewCountLabel();
+        }
+
+        // --- Filter Functionality ---
+        function filterReviews(type) {
+             const items = document.querySelectorAll('.review-item');
+             let visibleCount = 0;
+             const btn = document.getElementById('filterDropdownBtn');
+             
+             // Update button text
+             const textMap = {
+                 'all': 'Tümü',
+                 'positive': 'Sadece Pozitif',
+                 'negative': 'Sadece Negatif',
+                 'neutral': 'Sadece Nötr'
+             };
+             btn.innerHTML = `<i class="bi bi-filter me-2"></i>Filtrele: ${textMap[type]}`;
+
+             items.forEach(item => {
+                 // Reset filtered state
+                 item.classList.remove('filtered-hidden');
+                 
+                 const matches = (type === 'all' || item.getAttribute('data-sentiment') === type);
+                 
+                 if (matches) {
+                     // For 'all', respect the original 'd-none' (pagination)
+                     // BUT for specific filters, it's better UX to show ALL matches, ignoring pagination
+                     if (type === 'all') {
+                          // Allow pagination logic to handle visibility? 
+                          // No, easier to just reset pagination or keep it.
+                          // Let's reset pagination logic roughly or just let "d-none" stay if it was there
+                          // Actually user wants to see "pagination" applied to the normal list
+                          // Simplest is: if Match, remove 'filtered-hidden'. 
+                     } else {
+                         // If filtering, we usually show all matches because pagination gets complex mixed with JS filtering
+                         item.classList.remove('d-none'); 
+                     }
+                     visibleCount++;
+                 } else {
+                     item.classList.add('d-none'); // Hide non-matches
+                     item.classList.add('filtered-hidden'); // Mark as filtered out
+                 }
+             });
+             
+             // If we are back to 'all', we should probably re-apply the pagination logic from scratch
+             if(type === 'all') {
+                 // Reset pagination
+                 items.forEach((item, index) => {
+                     item.classList.remove('filtered-hidden');
+                     if(index < currentVisibleLimit) item.classList.remove('d-none');
+                     else item.classList.add('d-none');
+                 });
+                 // Show button again
+                 document.getElementById('loadMoreContainer').style.display = 'block';
+             } else {
+                 // Hide load more button when filtering
+                 document.getElementById('loadMoreContainer').style.display = 'none';
+             }
+             
+             // Show 'no results' if empty
+             const noMsg = document.getElementById('noReviewsMessage');
+             if(visibleCount === 0) noMsg.classList.remove('d-none');
+             else noMsg.classList.add('d-none');
+             
+             // Update counts
+             const label = document.getElementById('reviewCountLabel');
+             label.innerText = (type === 'all') ? `Görüntülenen: ${Math.min(currentVisibleLimit, items.length)} / ${items.length}` : `Filtrelenen: ${visibleCount}`;
+        }
+
+        // Check initial button state
+        if (allReviews.length <= 10) {
+            document.getElementById('loadMoreContainer').style.display = 'none';
+        }
+
+        // --- Charts ---
+        // Sentiment Chart
+        const ctxSentiment = document.getElementById('sentimentChart').getContext('2d');
+        new Chart(ctxSentiment, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pozitif', 'Nötr', 'Negatif'],
+                datasets: [{
+                    data: [@positiveCount, @neutralCount, @negativeCount],
+                    backgroundColor: ['#198754', '#ffc107', '#dc3545'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { usePointStyle: true, font: { size: 12 } } },
+                     title: { display: false }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // Aspect Chart
+        const ctxAspect = document.getElementById('aspectChart').getContext('2d');
+        // Serialize C# data to JS
+        const aspectLabels = @Html.Raw(Json.Serialize(aspectGroups.Select(x => x.Aspect)));
+        const aspectPos = @Html.Raw(Json.Serialize(aspectGroups.Select(x => x.Positive)));
+        const aspectNeg = @Html.Raw(Json.Serialize(aspectGroups.Select(x => x.Negative)));
+
+        new Chart(ctxAspect, {
+            type: 'bar',
+            data: {
+                labels: aspectLabels,
+                datasets: [
+                    {
+                        label: 'Olumlu Yorumlar',
+                        data: aspectPos,
+                        backgroundColor: '#198754',
+                        borderRadius: 5,
+                        barPercentage: 0.6
+                    },
+                    {
+                        label: 'Olumsuz Yorumlar',
+                        data: aspectNeg,
+                        backgroundColor: '#dc3545',
+                        borderRadius: 5,
+                        barPercentage: 0.6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                     legend: { position: 'top', align: 'end', labels: { usePointStyle: true } }
+                },
+                scales: {
+                    x: { 
+                        grid: { display: false },
+                        ticks: { font: { size: 11 } }
+                    },
+                    y: { 
+                        beginAtZero: true,
+                        grid: { borderDash: [5, 5] }
+                    }
+                }
+            }
+        });
+
+
+        // --- PDF Download with Charts ---
+        async function downloadPdfWithCharts(id) {
+            const btn = document.querySelector('a[onclick^="downloadPdfWithCharts"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Hazırlanıyor...';
+            btn.classList.add('disabled');
+
+            try {
+                // Capture Charts
+                const sentimentBase64 = document.getElementById('sentimentChart').toDataURL('image/png');
+                const aspectBase64 = document.getElementById('aspectChart').toDataURL('image/png');
+
+                // Send POST request
+                const response = await fetch('/Analysis/DownloadPdfWithCharts', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Antiforgery token might be needed if enabled globally, assumed open for now or add header
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        sentimentChartImage: sentimentBase64,
+                        aspectChartImage: aspectBase64
+                    })
+                });
+
+                if (response.ok) {
+                    // Trigger download
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `SentimentReport_${id}.pdf`; // Simplified name, server sets Content-Disposition usually
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                } else {
+                    alert('PDF oluşturulurken bir hata oluştu.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Beklenmedik bir hata.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.classList.remove('disabled');
+            }
+        }
+    </script>
+}

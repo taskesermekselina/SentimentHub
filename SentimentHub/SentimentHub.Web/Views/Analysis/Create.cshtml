@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "New Analysis";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary text-white p-4 text-center">
+                    <h3 class="mb-0 fw-bold">Yeni Pazar Yeri Analizi</h3>
+                    <p class="mb-0 opacity-75">Trendyol ürününüz için detaylı yapay zeka analizi başlatın</p>
+                </div>
+                <div class="card-body p-5">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        
+                        <div class="mb-4">
+                            <label for="url" class="form-label fw-bold">Trendyol Ürün Linki</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-bag-check"></i></span>
+                                <input type="url" name="url" class="form-control border-start-0 ps-0" placeholder="https://www.trendyol.com/marka/urun-p-12345" required>
+                            </div>
+                            <div class="form-text">Ürün sayfasının linkini yapıştırın (Otomatik olarak yorumları buluruz).</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="limit" class="form-label fw-bold">Review Limit</label>
+                            <input type="number" name="limit" class="form-control" value="100" min="10" max="2000">
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                                <i class="bi bi-magic me-2"></i>Analyze with AI
+                            </button>
+                            <a asp-action="Index" class="btn btn-light btn-lg rounded-pill">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

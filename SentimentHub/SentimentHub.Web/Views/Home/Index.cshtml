@@ -1,0 +1,161 @@
+﻿@model IEnumerable<SentimentHub.Web.Models.Analysis>
+@{
+    ViewData["Title"] = "Ana Sayfa";
+}
+
+<!-- Hero Section (Simple Style) -->
+<div class="hero-slider d-flex flex-column justify-content-center align-items-center mb-5">
+    <h2>Müşteri Yorumlarını Anlama Sanatı</h2>
+    <p class="mb-0">Yapay zeka destekli analiz ile ürünleriniz hakkındaki gerçekleri keşfedin.</p>
+</div>
+
+<!-- Info Cards (Original Style) -->
+<div class="row mb-5">
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card card-custom h-100 border-left-primary">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Hızlı Analiz</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Link Gir & Analiz Et</div>
+                        <p class="mt-2 text-muted small">Herhangi bir ürün linkini yapıştırarak saniyeler içinde analiz başlatın.</p>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-link fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card card-custom h-100 border-left-success">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Yapay Zeka</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">Derinlemesine Yorum</div>
+                        <p class="mt-2 text-muted small">Gemini AI ile yorumların duygu durumunu ve gizli kalmış detayları öğrenin.</p>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-robot fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card card-custom h-100 border-left-info">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Raporlama</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">PDF Çıktısı Al</div>
+                        <p class="mt-2 text-muted small">Analiz sonuçlarını profesyonel PDF raporları olarak saklayın ve paylaşın.</p>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-file-pdf fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- "Fuller" Part: Recent Activity Section (Real Data) -->
+<div class="row">
+    <div class="col-12">
+        <div class="card card-custom mb-4">
+            <div class="card-header-custom py-3">
+                <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-history me-2"></i>Son Yapılan İşlemler</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered text-center align-middle" width="100%" cellspacing="0">
+                        <thead>
+                            <tr class="bg-light">
+                                <th>Ürün / Başlık</th>
+                                <th>Platform</th>
+                                <th>Durum</th>
+                                <th>Tarih</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model != null && Model.Any())
+                            {
+                                foreach (var item in Model)
+                                {
+                                    var platform = "Bilinmiyor";
+                                    var url = item.Business?.GoogleMapsUrl?.ToLower() ?? "";
+                                    if (url.Contains("trendyol")) { platform = "Trendyol"; }
+                                    else if (url.Contains("hepsiburada")) { platform = "Hepsiburada"; }
+                                    else if (url.Contains("amazon")) { platform = "Amazon"; }
+                                    else if (url.Contains("google")) { platform = "Google Maps"; }
+
+                                    <tr>
+                                        <td>
+                                            <div class="text-start ps-3">
+                                                <div class="fw-bold text-dark">@(item.Business?.Name ?? "İsimsiz")</div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if(platform == "Trendyol")
+                                            {
+                                                <span class="badge bg-warning text-dark"><i class="fas fa-shopping-bag me-1"></i>Trendyol</span>
+                                            }
+                                            else if(platform == "Hepsiburada")
+                                            {
+                                                <span class="badge" style="background-color: #ff6000;"><i class="fas fa-box-open me-1"></i>Hepsiburada</span>
+                                            }
+                                            else if(platform == "Amazon")
+                                            {
+                                                <span class="badge bg-dark"><i class="fab fa-amazon me-1"></i>Amazon</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">@platform</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @if(item.Status == SentimentHub.Web.Models.AnalysisStatus.Completed)
+                                            {
+                                                <span class="badge bg-success rounded-pill px-3">Tamamlandı</span>
+                                            }
+                                            else if(item.Status == SentimentHub.Web.Models.AnalysisStatus.Failed)
+                                            {
+                                                <span class="badge bg-danger rounded-pill px-3">Başarısız</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info rounded-pill px-3">
+                                                    <span class="spinner-border spinner-border-sm me-1" style="width: 0.7rem; height: 0.7rem;"></span>İşleniyor
+                                                </span>
+                                            }
+                                        </td>
+                                        <td class="text-muted small">@item.Date.ToLocalTime().ToString("dd.MM.yyyy HH:mm")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-muted py-4">
+                                        <i class="fas fa-inbox fa-2x mb-2 opacity-50"></i><br>
+                                        Henüz bir analiz yapılmadı.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-center mt-3">
+                    <a asp-controller="Analysis" asp-action="Index" class="btn btn-sm btn-outline-primary rounded-pill">Tüm Raporları Gör <i class="fas fa-arrow-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

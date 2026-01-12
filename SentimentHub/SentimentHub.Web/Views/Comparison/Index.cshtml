@@ -1,0 +1,207 @@
+@model IEnumerable<SentimentHub.Web.Models.Analysis>
+
+@{
+    ViewData["Title"] = "Karşılaştırma - Rapor Seçimi";
+}
+
+<div class="container-fluid p-0">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 text-gray-800">Karşılaştırma Analizi</h1>
+            <p class="mb-0 text-muted">Mevcut raporlarınız arasından seçim yaparak kıyaslama yapın.</p>
+        </div>
+    </div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Kayıtlı Analiz Raporları</h6>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <div class="mb-3">
+                        <i class="fas fa-chart-bar fa-3x text-gray-300"></i>
+                    </div>
+                    <h5 class="text-gray-600">Henüz tamamlanmış bir analiziniz bulunmuyor.</h5>
+                    <p class="text-muted mb-0">Karşılaştırma yapabilmek için önce birkaç analiz oluşturmalısınız.</p>
+                </div>
+            }
+            else
+            {
+                <form asp-action="Result" method="post" id="compareForm">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;" class="text-center">Seç</th>
+                                    <th>Ürün/İşletme Adı</th>
+                                    <th>Link</th>
+                                    <th>Tarih</th>
+                                    <th>Skor</th>
+                                    <th>Yorum Sayısı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="text-center vertical-middle">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input analysis-check" id="check_@item.Id" name="analysisIds" value="@item.Id" data-url="@(item.Business?.GoogleMapsUrl ?? "")">
+                                                <label class="custom-control-label" for="check_@item.Id"></label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="font-weight-bold">@(item.Business?.Name ?? "Bilinmeyen")</div>
+                                        </td>
+                                        <td>
+                                            <a href="@(item.Business?.GoogleMapsUrl)" target="_blank" class="text-truncate d-inline-block" style="max-width: 250px;">
+                                                <i class="fas fa-external-link-alt mr-1"></i> Görüntüle
+                                            </a>
+                                        </td>
+                                        <td>@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>
+                                            <span class="badge badge-@(item.OverallScore >= 4 ? "success" : item.OverallScore >= 3 ? "warning" : "danger") px-2 py-1">
+                                                @item.OverallScore.ToString("F1")/5
+                                            </span>
+                                        </td>
+                                        <td>@item.TotalReviews</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="duplicateWarning" class="alert alert-warning mt-3 d-none">
+                        <i class="fas fa-exclamation-triangle mr-1"></i>
+                        <strong>Aynı ürüne ait raporlar karşılaştırılamaz.</strong> Lütfen farklı ürün linklerine sahip raporları seçiniz.
+                    </div>
+
+                    <div class="mt-4 p-3 bg-light rounded border">
+                        <div class="row align-items-end">
+                            <div class="col-md-7 mb-3 mb-md-0">
+                                <label for="reportName" class="form-label font-weight-bold text-gray-700">Rapor Adı (İsteğe Bağlı):</label>
+                                <input type="text" class="form-control rounded-pill" id="reportName" name="reportName" placeholder="Örn: Kış İndirimi Karşılaştırması">
+                            </div>
+                            <div class="col-md-5 d-flex justify-content-end align-items-center">
+                                <span class="mr-3 font-weight-bold text-primary"><span id="selectionCount">0</span> rapor seçildi.</span>
+                                <button type="submit" id="btnCompare" class="btn btn-primary btn-lg rounded-pill shadow-sm px-4" disabled>
+                                    <i class="fas fa-balance-scale mr-2"></i> Karşılaştır
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+
+    <!-- History Card -->
+    @if (ViewBag.History != null)
+    {
+        var history = ViewBag.History as List<SentimentHub.Web.Models.ComparisonReport>;
+        if (history != null && history.Any())
+        {
+            <div class="card border-0 shadow-sm rounded-4 mt-5">
+                <div class="card-header bg-white p-4 border-bottom border-light">
+                    <h5 class="fw-bold mb-0 text-secondary"><i class="fas fa-history mr-2"></i>Geçmiş Karşılaştırmalarım</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0 align-middle">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="pl-4 py-3">Rapor Adı / ID</th>
+                                    <th>Karşılaştırılan Analizler</th>
+                                    <th>Tarih</th>
+                                    <th class="text-right pr-4">İşlem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in history)
+                                {
+                                    <tr>
+                                        <td class="pl-4 font-weight-bold">
+                                            @if(!string.IsNullOrEmpty(item.Name))
+                                            {
+                                                <span class="text-primary"><i class="fas fa-bookmark mr-2"></i>@item.Name</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted font-italic">İsimsiz Rapor #@item.Id</span>
+                                            }
+                                        </td>
+                                        <td class="text-muted small">
+                                            @item.AnalysisIds.Replace("[","").Replace("]","").Replace(",", ", ")
+                                        </td>
+                                        <td>
+                                            @item.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                        </td>
+                                        <td class="text-right pr-4">
+                                            <a asp-action="Load" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                <i class="fas fa-eye mr-1"></i> Görüntüle
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('.analysis-check').change(function() {
+                var checkedItems = $('.analysis-check:checked');
+                var count = checkedItems.length;
+                $('#selectionCount').text(count);
+                
+                // Duplicate URL Check
+                var urls = [];
+                var hasDuplicate = false;
+                
+                checkedItems.each(function() {
+                    var url = $(this).data('url');
+                    if(url && urls.includes(url)) {
+                        hasDuplicate = true;
+                    }
+                    urls.push(url);
+                });
+
+                if (hasDuplicate) {
+                    $('#duplicateWarning').removeClass('d-none');
+                    $('#btnCompare').prop('disabled', true);
+                } else {
+                     $('#duplicateWarning').addClass('d-none');
+                     // Regular validation
+                     if (count >= 2 && count <= 3) {
+                        $('#btnCompare').prop('disabled', false);
+                     } else {
+                        $('#btnCompare').prop('disabled', true);
+                     }
+                }
+
+                // Optional: Disable others if 3 selected
+                if(count >= 3 && !hasDuplicate) {
+                     $('.analysis-check:not(:checked)').prop('disabled', true);
+                } else {
+                     $('.analysis-check:not(:checked)').prop('disabled', false);
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap - SentimentHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background: url('img/bg-auth.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        /* Overlay for better readability */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(78, 115, 223, 0.1);
+            /* Subtle blue tint */
+            z-index: -1;
+        }
+
+        .card-login {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.95);
+            /* Slight transparency */
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-6 col-md-8">
+                <div class="card card-login o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4 fw-bold">Hoş Geldiniz!</h1>
+                                        <p class="text-muted mb-4 small">SentimentHub Yönetim Paneli</p>
+                                    </div>
+                                    <form class="user">
+                                        <div class="form-group mb-3">
+                                            <input type="email" class="form-control form-control-lg rounded-pill fs-6"
+                                                id="exampleInputEmail" aria-describedby="emailHelp"
+                                                placeholder="E-posta Adresi...">
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <input type="password"
+                                                class="form-control form-control-lg rounded-pill fs-6"
+                                                id="exampleInputPassword" placeholder="Şifre">
+                                        </div>
+                                        <a href="index.html"
+                                            class="btn btn-primary-custom btn-lg w-100 rounded-pill mb-3">
+                                            Giriş Yap
+                                        </a>
+                                        <hr>
+                                        <a href="index.html"
+                                            class="btn btn-google btn-user btn-block w-100 rounded-pill mb-2 btn-outline-danger small">
+                                            <i class="fab fa-google fa-fw"></i> Google ile Giriş
+                                        </a>
+                                        <a href="index.html"
+                                            class="btn btn-facebook btn-user btn-block w-100 rounded-pill btn-outline-primary small">
+                                            <i class="fab fa-facebook-f fa-fw"></i> Facebook ile Giriş
+                                        </a>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small text-decoration-none" href="#">Şifremi Unuttum?</a>
+                                    </div>
+                                    <div class="text-center">
+                                        <a class="small text-decoration-none" href="register.html">Hesap Oluştur!</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

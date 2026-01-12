@@ -1,0 +1,51 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Start AI Service (Python)",
+            "type": "shell",
+            "command": "${workspaceFolder}/SentimentHub/SentimentHub.AI/venv/Scripts/python.exe",
+            "args": [
+                "main.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/SentimentHub/SentimentHub.AI"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "terminals"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Start Web App (.NET)",
+            "type": "process",
+            "command": "dotnet",
+            "args": [
+                "run"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/SentimentHub/SentimentHub.Web"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "group": "terminals"
+            },
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "Run SentimentHub (ALL)",
+            "dependsOn": [
+                "Start AI Service (Python)",
+                "Start Web App (.NET)"
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
