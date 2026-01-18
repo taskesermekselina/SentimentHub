@@ -6,97 +6,133 @@
 
 <div class="container-fluid p-0">
     <!-- Header -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h3 text-gray-800">Karşılaştırma Analizi</h1>
-            <p class="mb-0 text-muted">Mevcut raporlarınız arasından seçim yaparak kıyaslama yapın.</p>
+    <!-- Header -->
+    <div class="row mb-5 align-items-center">
+        <div class="col-md-8">
+            <h1 class="h2 fw-bold text-dark mb-2">Karşılaştırma Analizi</h1>
+            <p class="text-muted mb-0 lead">Farklı ürün veya işletmeleri yan yana kıyaslayın.</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <div class="d-inline-block bg-white p-2 rounded-circle shadow-sm text-primary">
+                <i class="fas fa-balance-scale fa-2x"></i>
+            </div>
         </div>
     </div>
 
     @if (TempData["Error"] != null)
     {
-        <div class="alert alert-danger">
-            @TempData["Error"]
+        <div class="alert alert-danger border-0 shadow-sm rounded-3 mb-4 d-flex align-items-center">
+            <i class="fas fa-exclamation-circle me-3 fa-lg"></i>
+            <div>@TempData["Error"]</div>
         </div>
     }
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Kayıtlı Analiz Raporları</h6>
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-5">
+        <div class="card-header bg-white p-4 border-bottom border-light d-flex justify-content-between align-items-center">
+            <h5 class="fw-bold mb-0 text-primary"><i class="fas fa-list-ul me-2"></i>Kayıtlı Analizler</h5>
+            <span class="badge bg-light text-primary rounded-pill px-3 py-2">Seçim Yapınız</span>
         </div>
-        <div class="card-body">
+        <div class="card-body p-0">
             @if (!Model.Any())
             {
                 <div class="text-center py-5">
-                    <div class="mb-3">
-                        <i class="fas fa-chart-bar fa-3x text-gray-300"></i>
+                    <div class="mb-4">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 100px; height: 100px;">
+                            <i class="fas fa-chart-bar fa-3x text-muted opacity-50"></i>
+                        </div>
                     </div>
-                    <h5 class="text-gray-600">Henüz tamamlanmış bir analiziniz bulunmuyor.</h5>
-                    <p class="text-muted mb-0">Karşılaştırma yapabilmek için önce birkaç analiz oluşturmalısınız.</p>
+                    <h5 class="text-dark fw-bold">Henüz Analiz Yok</h5>
+                    <p class="text-muted mb-4">Karşılaştırma yapmak için önce analiz oluşturmalısınız.</p>
+                    <button class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm" data-bs-toggle="modal" data-bs-target="#analysisModal">
+                        <i class="fas fa-plus me-2"></i>Yeni Analiz
+                    </button>
                 </div>
             }
             else
             {
                 <form asp-action="Result" method="post" id="compareForm">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
+                        <table class="table table-hover align-middle mb-0" id="dataTable">
+                            <thead class="bg-light text-uppercase small fw-bold text-muted">
                                 <tr>
-                                    <th style="width: 50px;" class="text-center">Seç</th>
-                                    <th>Ürün/İşletme Adı</th>
-                                    <th>Link</th>
-                                    <th>Tarih</th>
-                                    <th>Skor</th>
-                                    <th>Yorum Sayısı</th>
+                                    <th style="width: 60px;" class="text-center py-3">Seç</th>
+                                    <th class="py-3">Ürün/İşletme Adı</th>
+                                    <th class="py-3">Kaynak</th>
+                                    <th class="py-3">Tarih</th>
+                                    <th class="py-3">Skor</th>
+                                    <th class="py-3">Yorum</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="border-top-0">
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td class="text-center vertical-middle">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input analysis-check" id="check_@item.Id" name="analysisIds" value="@item.Id" data-url="@(item.Business?.GoogleMapsUrl ?? "")">
-                                                <label class="custom-control-label" for="check_@item.Id"></label>
+                                    <tr class="position-relative">
+                                        <td class="text-center">
+                                            <div class="form-check d-flex justify-content-center">
+                                                <input type="checkbox" class="form-check-input p-2 analysis-check shadow-sm" id="check_@item.Id" name="analysisIds" value="@item.Id" data-url="@(item.Business?.GoogleMapsUrl ?? "")" style="cursor: pointer; border-color: #dee2e6;">
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="font-weight-bold">@(item.Business?.Name ?? "Bilinmeyen")</div>
+                                            <label class="fw-bold text-dark mb-0 d-block cursor-pointer" for="check_@item.Id">
+                                                @(item.Business?.Name ?? "Bilinmeyen")
+                                            </label>
                                         </td>
                                         <td>
-                                            <a href="@(item.Business?.GoogleMapsUrl)" target="_blank" class="text-truncate d-inline-block" style="max-width: 250px;">
-                                                <i class="fas fa-external-link-alt mr-1"></i> Görüntüle
+                                            <a href="@(item.Business?.GoogleMapsUrl)" target="_blank" class="btn btn-sm btn-light rounded-pill px-3 text-truncate" style="max-width: 200px;">
+                                                <i class="fas fa-external-link-alt me-1 text-muted"></i> <span class="small">Ürüne Git</span>
                                             </a>
                                         </td>
-                                        <td>@item.Date.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td class="text-muted small">
+                                            <i class="far fa-clock me-1"></i> @item.Date.ToString("dd.MM.yyyy HH:mm")
+                                        </td>
                                         <td>
-                                            <span class="badge badge-@(item.OverallScore >= 4 ? "success" : item.OverallScore >= 3 ? "warning" : "danger") px-2 py-1">
-                                                @item.OverallScore.ToString("F1")/5
+                                            @{
+                                                var scoreClass = item.OverallScore >= 4 ? "bg-success-subtle text-success" : 
+                                                               item.OverallScore >= 3 ? "bg-warning-subtle text-warning" : "bg-danger-subtle text-danger";
+                                            }
+                                            <span class="badge @scoreClass rounded-pill px-3 py-2 fw-bold">
+                                                <i class="fas fa-star me-1"></i>@item.OverallScore.ToString("F1")
                                             </span>
                                         </td>
-                                        <td>@item.TotalReviews</td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border rounded-pill px-3">
+                                                @item.TotalReviews
+                                            </span>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
 
-                    <div id="duplicateWarning" class="alert alert-warning mt-3 d-none">
-                        <i class="fas fa-exclamation-triangle mr-1"></i>
-                        <strong>Aynı ürüne ait raporlar karşılaştırılamaz.</strong> Lütfen farklı ürün linklerine sahip raporları seçiniz.
+                    <div id="duplicateWarning" class="alert alert-warning border-0 rounded-3 m-4 d-none shadow-sm">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-exclamation-triangle text-warning fa-lg me-3"></i>
+                            <div>
+                                <strong>Dikkat:</strong> Aynı ürüne ait raporlar karşılaştırılamaz. Lütfen farklı ürünleri seçiniz.
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="mt-4 p-3 bg-light rounded border">
-                        <div class="row align-items-end">
-                            <div class="col-md-7 mb-3 mb-md-0">
-                                <label for="reportName" class="form-label font-weight-bold text-gray-700">Rapor Adı (İsteğe Bağlı):</label>
-                                <input type="text" class="form-control rounded-pill" id="reportName" name="reportName" placeholder="Örn: Kış İndirimi Karşılaştırması">
+                    <div class="bg-light p-4 border-top">
+                        <div class="row align-items-end g-3">
+                            <div class="col-md-7">
+                                <label for="reportName" class="form-label fw-bold text-muted small text-uppercase">Rapor Adı (Opsiyonel)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white border-end-0 border text-muted px-3"><i class="fas fa-pen"></i></span>
+                                    <input type="text" class="form-control border-start-0 border ps-0 shadow-sm" id="reportName" name="reportName" placeholder="Örn: En İyi Kulaklık Karşılaştırması" style="height: 50px;">
+                                </div>
                             </div>
-                            <div class="col-md-5 d-flex justify-content-end align-items-center">
-                                <span class="mr-3 font-weight-bold text-primary"><span id="selectionCount">0</span> rapor seçildi.</span>
-                                <button type="submit" id="btnCompare" class="btn btn-primary btn-lg rounded-pill shadow-sm px-4" disabled>
-                                    <i class="fas fa-balance-scale mr-2"></i> Karşılaştır
-                                </button>
+                            <div class="col-md-5">
+                                <div class="d-flex justify-content-end align-items-center h-100">
+                                    <div class="me-4 text-end">
+                                        <div class="small text-muted mb-1">Seçilen Rapor</div>
+                                        <div class="fw-bold h5 mb-0 text-primary"><span id="selectionCount">0</span> / 3</div>
+                                    </div>
+                                    <button type="submit" id="btnCompare" class="btn btn-primary btn-lg rounded-pill shadow px-5 py-2 fw-bold" disabled style="min-width: 160px; height: 50px;">
+                                        Karşılaştır <i class="fas fa-chevron-right ms-2"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -111,59 +147,112 @@
         var history = ViewBag.History as List<SentimentHub.Web.Models.ComparisonReport>;
         if (history != null && history.Any())
         {
-            <div class="card border-0 shadow-sm rounded-4 mt-5">
-                <div class="card-header bg-white p-4 border-bottom border-light">
-                    <h5 class="fw-bold mb-0 text-secondary"><i class="fas fa-history mr-2"></i>Geçmiş Karşılaştırmalarım</h5>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover mb-0 align-middle">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="pl-4 py-3">Rapor Adı / ID</th>
-                                    <th>Karşılaştırılan Analizler</th>
-                                    <th>Tarih</th>
-                                    <th class="text-right pr-4">İşlem</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in history)
-                                {
-                                    <tr>
-                                        <td class="pl-4 font-weight-bold">
-                                            @if(!string.IsNullOrEmpty(item.Name))
-                                            {
-                                                <span class="text-primary"><i class="fas fa-bookmark mr-2"></i>@item.Name</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted font-italic">İsimsiz Rapor #@item.Id</span>
-                                            }
-                                        </td>
-                                        <td class="text-muted small">
-                                            @item.AnalysisIds.Replace("[","").Replace("]","").Replace(",", ", ")
-                                        </td>
-                                        <td>
-                                            @item.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
-                                        </td>
-                                        <td class="text-right pr-4">
-                                            <a asp-action="Load" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                                <i class="fas fa-eye mr-1"></i> Görüntüle
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+            <div class="d-flex align-items-center mb-4 mt-5">
+                <div class="bg-primary rounded-pill me-3" style="width: 4px; height: 24px;"></div>
+                <h4 class="fw-bold mb-0 text-dark">Geçmiş Karşılaştırmalar</h4>
+            </div>
+
+            <div class="row g-4">
+                @foreach (var item in history)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card border-0 shadow-sm h-100 hover-shadow transition-all rounded-4">
+                            <div class="card-body p-4 d-flex flex-column">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div class="bg-light rounded-circle p-2 text-primary">
+                                        <i class="fas fa-history fa-lg"></i>
+                                    </div>
+                                    <small class="text-muted">@item.CreatedAt.ToLocalTime().ToString("dd MMM yyyy")</small>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-2 text-truncate" title="@item.Name">
+                                    @(string.IsNullOrEmpty(item.Name) ? $"Kayıt # {item.Id}" : item.Name)
+                                </h5>
+                                <p class="text-muted small mb-4 flex-grow-1">
+                                    Bu raporda <span class="fw-bold text-dark">@item.AnalysisIds.Split(',').Length</span> ürün karşılaştırılmıştır.
+                                </p>
+                                <div class="d-flex gap-2 mt-auto">
+                                    <a asp-action="Load" asp-route-id="@item.Id" class="btn btn-outline-primary rounded-pill flex-grow-1 fw-bold">
+                                        Görüntüle
+                                    </a>
+                                     <button type="button" class="btn btn-outline-secondary rounded-pill px-3" title="Adlandır" onclick="showRenameModal('@item.Id', '@item.Name')">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger rounded-pill px-3" title="Sil" onclick="showDeleteModal('@item.Id')">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         }
     }
 </div>
 
+</div>
+
+<!-- Rename Modal -->
+<div class="modal fade" id="renameModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Raporu Yeniden Adlandır</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form asp-action="Rename" method="post">
+                    <input type="hidden" name="id" id="renameId" />
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">YENİ İSİM</label>
+                        <input type="text" name="newName" id="newNameInput" class="form-control rounded-pill" required />
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary rounded-pill fw-bold">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+             <div class="modal-body p-4 text-center">
+                <div class="mb-3 text-danger">
+                    <i class="fas fa-exclamation-circle fa-4x opacity-75"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-2">Emin misiniz?</h4>
+                <p class="text-muted mb-4">Bu raporu kalıcı olarak silmek üzeresiniz.</p>
+                <form asp-action="Delete" method="post" class="d-inline">
+                    <input type="hidden" name="id" id="deleteId" />
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-light rounded-pill px-4 fw-bold" data-bs-dismiss="modal">İptal</button>
+                        <button type="submit" class="btn btn-danger rounded-pill px-4 fw-bold">Evet, Sil</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
+        function showRenameModal(id, name) {
+            document.getElementById('renameId').value = id;
+            document.getElementById('newNameInput').value = name;
+            var myModal = new bootstrap.Modal(document.getElementById('renameModal'));
+            myModal.show();
+        }
+
+        function showDeleteModal(id) {
+             document.getElementById('deleteId').value = id;
+             var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+             myModal.show();
+        }
+
         $(document).ready(function() {
             $('.analysis-check').change(function() {
                 var checkedItems = $('.analysis-check:checked');

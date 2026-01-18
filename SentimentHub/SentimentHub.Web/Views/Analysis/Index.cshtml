@@ -88,6 +88,12 @@
                                             <button disabled class="btn btn-outline-secondary btn-sm rounded-pill flex-grow-1"><span class="spinner-border spinner-border-sm"></span></button>
                                          }
 
+                                         
+                                         <!-- Rename Button -->
+                                         <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" title="Raporu Yeniden Adlandır" onclick="showRenameModal('@analysis.Id', '@business.Name')">
+                                             <i class="fas fa-pen"></i>
+                                         </button>
+
                                          <!-- Delete Button (Trigger Modal) -->
                                          <form asp-action="Delete" asp-route-id="@analysis.Id" method="post" class="d-inline" id="deleteForm_@analysis.Id">
                                              <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" title="Raporu Sil" onclick="showDeleteModal('@analysis.Id')">
@@ -109,6 +115,32 @@
 {
     // Empty State logic logic above covers this technically but good to keep structure
 }
+
+</div>
+
+<!-- Rename Confirmation Modal -->
+<div class="modal fade" id="renameModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Raporu Yeniden Adlandır</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form asp-action="Rename" method="post" id="renameForm">
+                    <input type="hidden" name="id" id="renameId" />
+                    <div class="mb-3">
+                        <label class="form-label text-muted small fw-bold">YENİ İSİM</label>
+                        <input type="text" name="newName" id="newNameInput" class="form-control rounded-pill" required />
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary rounded-pill fw-bold">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmationModal" tabindex="-1">
@@ -146,5 +178,12 @@
                 document.getElementById(targetFormId).submit();
             }
         });
+
+        function showRenameModal(id, currentName) {
+            document.getElementById('renameId').value = id;
+            document.getElementById('newNameInput').value = currentName;
+            var renameModal = new bootstrap.Modal(document.getElementById('renameModal'));
+            renameModal.show();
+        }
     </script>
 }

@@ -143,6 +143,37 @@ public class ComparisonController : Controller
         return File(pdfBytes, "application/pdf", $"KarsilastirmaRaporu_{DateTime.Now:yyyyMMdd}.pdf");
     }
 
+    // POST: Comparison/Delete/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var report = await _context.ComparisonReports.FindAsync(id);
+        if (report != null)
+        {
+            _context.ComparisonReports.Remove(report);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
+    // POST: Comparison/Rename
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Rename(int id, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+            return RedirectToAction(nameof(Index));
+
+        var report = await _context.ComparisonReports.FindAsync(id);
+        if (report != null)
+        {
+            report.Name = newName.Trim();
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
     private async Task<ComparisonViewModel> PrepareComparisonModel(int[] analysisIds)
     {
         var user = await _userManager.GetUserAsync(User);

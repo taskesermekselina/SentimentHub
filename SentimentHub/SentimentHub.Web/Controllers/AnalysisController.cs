@@ -71,6 +71,28 @@ public class AnalysisController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    // POST: Analysis/Rename
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Rename(int id, string newName)
+    {
+        if (string.IsNullOrWhiteSpace(newName))
+            return RedirectToAction(nameof(Index));
+
+        var analysis = await _context.Analyses
+            .Include(a => a.Business)
+            .FirstOrDefaultAsync(m => m.Id == id);
+
+        if (analysis != null && analysis.Business != null)
+        {
+            // Update Business Name (which acts as Title)
+            analysis.Business.Name = newName.Trim();
+            _context.Update(analysis.Business);
+            await _context.SaveChangesAsync();
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
     // POST: Analysis/Create
     [HttpPost]
     [ValidateAntiForgeryToken]

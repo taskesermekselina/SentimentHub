@@ -1,0 +1,31 @@
+@model SentimentHub.Web.Models.VerifyCodeViewModel
+
+@{
+    ViewData["Title"] = "E-posta Doğrulama";
+}
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card p-4 shadow-lg p-3 mb-5 bg-body rounded" style="width: 100%; max-width: 400px;">
+        <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+        <div class="alert alert-info" role="alert">
+            E-posta adresinize gönderilen 6 haneli doğrulama kodunu giriniz.
+        </div>
+        <form asp-action="VerifyCode" method="post">
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Code" class="form-control" placeholder="123456" autocomplete="off" />
+                <label asp-for="Code">Doğrulama Kodu</label>
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">Doğrula</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

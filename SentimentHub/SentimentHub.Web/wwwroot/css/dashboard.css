@@ -177,7 +177,13 @@ body {
 
 /* Toggled State */
 #wrapper.toggled #sidebar-wrapper {
-    margin-left: -var(--sidebar-width);
+    margin-left: -250px !important;
+}
+
+/* Ensure Navbar is on top */
+.navbar-custom {
+    z-index: 1050;
+    position: relative;
 }
 
 /* Hero Slider */
@@ -258,16 +264,16 @@ body {
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        margin-left: -var(--sidebar-width);
+        margin-left: -250px !important;
     }
 }
 
 @media (max-width: 768px) {
     #sidebar-wrapper {
-        margin-left: -var(--sidebar-width);
+        margin-left: -250px !important;
     }
 
     #wrapper.toggled #sidebar-wrapper {
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 }

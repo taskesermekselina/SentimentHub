@@ -1352,5 +1352,6 @@ C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0
 C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\SentimentHub.Web.genruntimeconfig.cache
 C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\ref\SentimentHub.Web.dll
 C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\compressed\o2l92sqycb-404yz0x2mk.gz
-C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\compressed\2e98l3y897-kq06z23c5x.gz
 C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\compressed\uxicscnszu-vfr525hwxb.gz
+C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\SentimentHub.Web.sourcelink.json
+C:\Users\mekselina\Desktop\YEDEK2\SentimentHub\SentimentHub.Web\obj\Debug\net9.0\compressed\2e98l3y897-0fllvdwicw.gz
