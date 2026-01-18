@@ -88,6 +88,7 @@ SentimentHub'ın kullanıcı dostu arayüzü, karmaşık verileri anlaşılır g
     ```
 
 ---
-Bu proje **Mekselina** tarafından geliştirilmiştir.
+Bu proje **Mekselina Taşkeser** tarafından geliştirilmiştir.
 *Veri odaklı karar alma süreçlerini yapay zeka ile demokratikleştiriyoruz.*
+
 
