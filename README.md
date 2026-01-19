@@ -63,7 +63,7 @@ Projenin detaylı tanıtımını, MVC yapısının açıklamasını ve uygulaman
 
 [GitHub Teslim Videosu - İzlemek İçin Tıklayın](https://www.youtube.com/watch?v=P9XJ7bf1WzM)
 
-[![Proje Tanıtım Videosu](https://img.youtube.com/viP9XJ7bf1WzM.jpg)](https://www.youtube.com/watch?v=P9XJ7bf1WzM)
+[![Proje Tanıtım Videosu](https://img.youtube.com/vi/P9XJ7bf1WzM.jpg)](https://www.youtube.com/watch?v=P9XJ7bf1WzM)
 
 
 
