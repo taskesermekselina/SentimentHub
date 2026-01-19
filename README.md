@@ -67,3 +67,4 @@ Projenin detaylı tanıtımını, MVC yapısının açıklamasını ve uygulaman
 
 
 
+
