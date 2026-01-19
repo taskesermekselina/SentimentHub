@@ -61,7 +61,8 @@ SentimentHub'ın kullanıcı dostu arayüzü, karmaşık verileri anlaşılır g
 ## Tanıtım Videosu
 Projenin detaylı tanıtımını, MVC yapısının açıklamasını ve uygulamanın çalışır halini aşağıdaki YouTube videosundan izleyebilirsiniz:
 
-[GitHub Teslim Videosu - İzlemek İçin Tıklayın](http://youtube.com/watch?v=iRkfqZ7xucA)
+[GitHub Teslim Videosu - İzlemek İçin Tıklayın](https://www.youtube.com/watch?v=P9XJ7bf1WzM)
 
-[![Proje Tanıtım Videosu](https://img.youtube.com/vi/iRkfqZ7xucA/0.jpg)](http://youtube.com/watch?v=iRkfqZ7xucA)
+[![Proje Tanıtım Videosu](https://img.youtube.com/vi/iRkfqZ7xucA/0.jpg)](https://www.youtube.com/watch?v=P9XJ7bf1WzM)
+
 
