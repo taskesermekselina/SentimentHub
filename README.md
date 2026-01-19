@@ -89,9 +89,11 @@ SentimentHub'ın kullanıcı dostu arayüzü, karmaşık verileri anlaşılır g
 
 ---
 **YouTube videosuna aşağıdaki linkten ulaşabilirsiniz** : 
-**(https://www.youtube.com/watch?v=iRkfqZ7xucA)**
+ * **(https://www.youtube.com/watch?v=iRkfqZ7xucA)**
+   
 Bu proje **Mekselina Taşkeser** tarafından geliştirilmiştir.
 *Veri odaklı karar alma süreçlerini yapay zeka ile demokratikleştiriyoruz.*
+
 
 
 
