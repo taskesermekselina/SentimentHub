@@ -392,5 +392,18 @@ Kullanıcıların karşılaştırma sonuçlarını görüntüleyebildiği ana ek
 
 ---
 
+## 👩‍💻 Geliştirici
 
+**Mekselina Taşkeser**
+
+Yönetim Bilişim Sistemleri  
+Bursa Uludağ Üniversitesi
+
+### Bağlantılar
+
+GitHub:
+https://github.com/taskesermekselina
+
+LinkedIn:
+https://www.linkedin.com/in/mekselina-taskeser
 
