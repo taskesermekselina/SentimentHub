@@ -45,6 +45,7 @@ Karşılaştırmalı İş Zekâsı Modülü sayesinde birden fazla ürün aynı 
 ### Analiz Sonuç Ekranı
 
 <!-- Görsel -->
+<img width="1893" height="876" alt="Ekran görüntüsü 2026-06-18 233137" src="https://github.com/user-attachments/assets/984317ce-4e7d-4668-b094-2b3bebd54640" />
 <img width="1898" height="851" alt="rapor5" src="https://github.com/user-attachments/assets/a9415ae2-53c1-4a29-9cc8-f3f8a11d890a" />
 <img width="1892" height="880" alt="rapor6" src="https://github.com/user-attachments/assets/08339e34-9899-4bd3-b454-a76cd113286b" />
 <img width="1868" height="860" alt="RAPOR1" src="https://github.com/user-attachments/assets/f41c79a4-eab2-4f0f-a22a-e6365d76dd48" />
@@ -56,19 +57,12 @@ Karşılaştırmalı İş Zekâsı Modülü sayesinde birden fazla ürün aynı 
 
 
 
-
-
-
-
-
-### Yapay Zekâ İçgörüleri
-
-<!-- Görsel -->
-
 ### Karşılaştırmalı Analiz
 
 <!-- Görsel -->
-
-### PDF Rapor
-
-<!-- Görsel -->
+<img width="1892" height="846" alt="Ekran görüntüsü 2026-06-18 232900" src="https://github.com/user-attachments/assets/1cc38395-ed00-492f-9f6e-a7365fb25d01" />
+<img width="1890" height="867" alt="geçmiş karsılatırma" src="https://github.com/user-attachments/assets/40e3ca30-4563-4d35-8356-a117ac058cb0" />
+<img width="1863" height="807" alt="KARŞILASTIRMA1" src="https://github.com/user-attachments/assets/93aff6dd-2310-4b93-81ac-799320bfed0c" />
+<img width="1257" height="557" alt="KARSILASTORMA2" src="https://github.com/user-attachments/assets/5436542a-3837-4256-b59c-0eab4b8a73a4" />
+<img width="1862" height="685" alt="KARSILASTIRMA 3" src="https://github.com/user-attachments/assets/bb784742-70eb-4606-9a52-0fcdb626bbe8" />
+<img width="1897" height="412" alt="karsılastırma" src="https://github.com/user-attachments/assets/d1d37397-816c-4b7d-8dc8-04f796dfa9c6" />
