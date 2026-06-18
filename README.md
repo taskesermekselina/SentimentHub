@@ -349,22 +349,12 @@ Bu proje Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kaps
 
 ## Uygulama Görselleri
 
-### Ana Sayfa
-<table>
-<tr>
-<td>
-        
-<img width="1892" height="873" alt="ANSYF1" src="https://github.com/user-attachments/assets/8a306708-f24c-4b9a-b6b4-829828d60d5f" />
+### Ana Sayfa   
+**SentimentHub Ana Sayfa Görünümü**
 
-</td>
-        
-<td>
-        
-<img width="1902" height="617" alt="ANSYF2" src="https://github.com/user-attachments/assets/ee02d556-69c9-4f6e-8d4b-e6efb44b7625" />
-
-</td>
-</tr>
-        
+Kullanıcıların trendleri ve performans göstergelerini görüntüleyebildiği ana ekran.
+<img width="1892" height="873" alt="ANSYF1" src="https://github.com/user-attachments/assets/8a306708-f24c-4b9a-b6b4-829828d60d5f" /> 
+<img width="1902" height="617" alt="ANSYF2" src="https://github.com/user-attachments/assets/ee02d556-69c9-4f6e-8d4b-e6efb44b7625" /> 
 <img width="1882" height="916" alt="ANSYF3" src="https://github.com/user-attachments/assets/a490dcc5-5af5-43f4-a076-d1a79e422e31" />
 <img width="1877" height="856" alt="ANSYF4" src="https://github.com/user-attachments/assets/927ac949-5fef-426c-adb6-d88fd3a67166" />
 <img width="1893" height="682" alt="ANSYF5" src="https://github.com/user-attachments/assets/ddf83a04-8ab7-49bc-a4eb-ddd6ded67c10" />
@@ -374,7 +364,9 @@ Bu proje Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kaps
 <!-- Görsel -->
 
 ### Analiz Sonuç Ekranı
+**SentimentHub Analiz Sayfa Görünümü**
 
+Kullanıcıların analiz sonuçlarını görüntüleyebildiği ana ekran.
 <!-- Görsel -->
 <img width="1893" height="876" alt="Ekran görüntüsü 2026-06-18 233137" src="https://github.com/user-attachments/assets/984317ce-4e7d-4668-b094-2b3bebd54640" />
 <img width="1898" height="851" alt="rapor5" src="https://github.com/user-attachments/assets/a9415ae2-53c1-4a29-9cc8-f3f8a11d890a" />
@@ -387,6 +379,9 @@ Bu proje Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kaps
 <img width="1836" height="837" alt="RAPOR4" src="https://github.com/user-attachments/assets/311c692c-1ae5-4e70-9332-d8cfed15c10a" />
 
 ### Karşılaştırmalı Analiz
+**SentimentHub Rakip Analiz Sayfa Görünümü**
+
+Kullanıcıların karşılaştırma sonuçlarını görüntüleyebildiği ana ekran.
 <!-- Görsel -->
 <img width="1892" height="846" alt="Ekran görüntüsü 2026-06-18 232900" src="https://github.com/user-attachments/assets/1cc38395-ed00-492f-9f6e-a7365fb25d01" />
 <img width="1890" height="867" alt="geçmiş karsılatırma" src="https://github.com/user-attachments/assets/40e3ca30-4563-4d35-8356-a117ac058cb0" />
