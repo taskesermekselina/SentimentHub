@@ -1,16 +1,22 @@
-SentimentHub
-Yapay Zekâ Destekli Müşteri Yorum Analizi ve Karşılaştırmalı İş Zekâsı Platformu
+<div align="center">
+
+# SentimentHub
+
+### Yapay Zekâ Destekli Müşteri Yorum Analizi ve Karşılaştırmalı İş Zekâsı Platformu
 
 Kullanıcı yorumlarını analiz eden, müşteri memnuniyetini ölçen, rakip ürünleri karşılaştıran ve işletmelere veri odaklı karar desteği sağlayan web platformu.
 
+![ASP.NET Core](https://img.shields.io/badge/ASP.NET_Core-8.0-blue)
+![Python](https://img.shields.io/badge/Python-3.11-yellow)
+![FastAPI](https://img.shields.io/badge/FastAPI-green)
+![SQLite](https://img.shields.io/badge/SQLite-Database-blue)
+![LM Studio](https://img.shields.io/badge/AI-LM_Studio-orange)
 
+</div>
 
+---
 
-
-
-
-
-🚀 SentimentHub Nedir?
+## 🚀 SentimentHub Nedir?
 
 SentimentHub, e-ticaret platformlarında yer alan kullanıcı yorumlarını yapay zekâ teknolojileri kullanarak analiz eden ve elde edilen verileri karar destek bilgilerine dönüştüren bir iş zekâsı platformudur.
 
@@ -20,41 +26,56 @@ Geliştirilen AnalysisEnrichmentService katmanı sayesinde kök neden analizi, r
 
 Karşılaştırmalı İş Zekâsı Modülü sayesinde farklı ürünler ortak bir değerlendirme çerçevesinde analiz edilerek ürün performansları karşılaştırılabilmektedir.
 
-🎯 SentimentHub Neler Yapabilir?
-✔ Kullanıcı yorumlarını otomatik olarak toplar
-✔ Yapay zekâ ile duygu analizi gerçekleştirir
-✔ Ürünün güçlü ve zayıf yönlerini belirler
-✔ Müşteri memnuniyetini ölçer
-✔ Kök nedenleri ortaya çıkarır
-✔ Risk seviyelerini tespit eder
-✔ Fiyat algısını değerlendirir
-✔ Tavsiye etme eğilimini hesaplar
-✔ Müşteri sadakatini analiz eder
-✔ Rakip ürünleri karşılaştırır
-✔ Karar destek çıktıları üretir
-✔ PDF raporları oluşturur
-✨ Öne Çıkan Özellikler
-Özellik	Açıklama
-🤖 Yapay Zekâ Destekli Duygu Analizi	Kullanıcı yorumlarını olumlu, olumsuz ve nötr olarak sınıflandırır
-📊 Boyut Tabanlı Analiz	Kalite, fiyat, kargo ve satıcı performansını ayrı ayrı değerlendirir
-🔍 Kök Neden Analizi	Müşteri memnuniyetsizliğinin temel sebeplerini belirler
-⚠️ Risk Erken Uyarı Sistemi	Memnuniyet değişimlerini takip eder ve risk seviyeleri oluşturur
-💰 Fiyat Algısı Analizi	Fiyat-performans değerlendirmelerini analiz eder
-📢 Tavsiye Etme Eğilimi	Tavsiye edilme potansiyelini hesaplar
-❤️ Müşteri Sadakati Analizi	Tekrar satın alma ve marka bağlılığı sinyallerini tespit eder
-🏆 Karşılaştırmalı İş Zekâsı	Rakip ürünleri analiz ederek karar desteği sağlar
-📄 PDF Raporlama	Analiz sonuçlarını profesyonel rapor formatında sunar
-📈 Sistem Yetenekleri
-Özellik	Durum
-Yapay Zekâ Destekli Duygu Analizi	✅
-Boyut Tabanlı Duygu Analizi	✅
-Kök Neden Analizi	✅
-Risk Erken Uyarı Sistemi	✅
-Fiyat Algısı Analizi	✅
-Tavsiye Etme Eğilimi Analizi	✅
-Müşteri Sadakati Analizi	✅
-Karşılaştırmalı Analiz	✅
-PDF Raporlama	✅
+---
+
+## 🎯 SentimentHub Neler Yapabilir?
+
+- Kullanıcı yorumlarını otomatik olarak toplar
+- Yapay zekâ ile duygu analizi gerçekleştirir
+- Ürünün güçlü ve zayıf yönlerini belirler
+- Müşteri memnuniyetini ölçer
+- Kök nedenleri ortaya çıkarır
+- Risk seviyelerini tespit eder
+- Fiyat algısını değerlendirir
+- Tavsiye etme eğilimini hesaplar
+- Müşteri sadakatini analiz eder
+- Rakip ürünleri karşılaştırır
+- Karar destek çıktıları üretir
+- PDF raporları oluşturur
+
+---
+
+## ✨ Öne Çıkan Özellikler
+
+| Özellik | Açıklama |
+|----------|----------|
+| 🤖 Yapay Zekâ Destekli Duygu Analizi | Kullanıcı yorumlarını olumlu, olumsuz ve nötr olarak sınıflandırır |
+| 📊 Boyut Tabanlı Analiz | Kalite, fiyat, kargo ve satıcı performansını ayrı ayrı değerlendirir |
+| 🔍 Kök Neden Analizi | Müşteri memnuniyetsizliğinin temel sebeplerini belirler |
+| ⚠️ Risk Erken Uyarı Sistemi | Memnuniyet değişimlerini takip eder ve risk seviyeleri oluşturur |
+| 💰 Fiyat Algısı Analizi | Fiyat-performans değerlendirmelerini analiz eder |
+| 📢 Tavsiye Etme Eğilimi | Tavsiye edilme potansiyelini hesaplar |
+| ❤️ Müşteri Sadakati Analizi | Tekrar satın alma ve marka bağlılığı sinyallerini tespit eder |
+| 🏆 Karşılaştırmalı İş Zekâsı | Rakip ürünleri analiz ederek karar desteği sağlar |
+| 📄 PDF Raporlama | Analiz sonuçlarını profesyonel rapor formatında sunar |
+
+---
+
+## 📈 Sistem Yetenekleri
+
+| Özellik | Durum |
+|----------|--------|
+| Yapay Zekâ Destekli Duygu Analizi | ✅ |
+| Boyut Tabanlı Duygu Analizi | ✅ |
+| Kök Neden Analizi | ✅ |
+| Risk Erken Uyarı Sistemi | ✅ |
+| Fiyat Algısı Analizi | ✅ |
+| Tavsiye Etme Eğilimi Analizi | ✅ |
+| Müşteri Sadakati Analizi | ✅ |
+| Karşılaştırmalı Analiz | ✅ |
+| PDF Raporlama | ✅ |
+
+---
 
 ## Uygulama Görselleri
 
