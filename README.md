@@ -353,11 +353,15 @@ Bu proje Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kaps
 <table>
 <tr>
 <td>
+        
 <img width="1892" height="873" alt="ANSYF1" src="https://github.com/user-attachments/assets/8a306708-f24c-4b9a-b6b4-829828d60d5f" />
+
 </td>
         
 <td>
+        
 <img width="1902" height="617" alt="ANSYF2" src="https://github.com/user-attachments/assets/ee02d556-69c9-4f6e-8d4b-e6efb44b7625" />
+
 </td>
 </tr>
         
