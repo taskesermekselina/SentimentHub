@@ -66,3 +66,324 @@ Karşılaştırmalı İş Zekâsı Modülü sayesinde birden fazla ürün aynı 
 <img width="1257" height="557" alt="KARSILASTORMA2" src="https://github.com/user-attachments/assets/5436542a-3837-4256-b59c-0eab4b8a73a4" />
 <img width="1862" height="685" alt="KARSILASTIRMA 3" src="https://github.com/user-attachments/assets/bb784742-70eb-4606-9a52-0fcdb626bbe8" />
 <img width="1897" height="412" alt="karsılastırma" src="https://github.com/user-attachments/assets/d1d37397-816c-4b7d-8dc8-04f796dfa9c6" />
+
+---
+
+## 🧠 Yapay Zekâ Analiz Süreci
+
+SentimentHub, kullanıcı yorumlarını çok aşamalı bir yapay zekâ işleme hattı üzerinden analiz etmektedir.
+
+```text
+Trendyol Ürün Linki
+        ↓
+Yorumların Toplanması
+        ↓
+Veri Temizleme ve Ön İşleme
+        ↓
+LLM Tabanlı Duygu Analizi
+        ↓
+Boyut Tabanlı Sınıflandırma
+        ↓
+AnalysisEnrichmentService
+        ↓
+Karşılaştırmalı İş Zekâsı Motoru
+        ↓
+Dashboard ve PDF Raporlama
+```
+
+Sistem ilk olarak ürün yorumlarını toplar ve tekrar eden kayıtları temizler. Ardından yorumlar yerel büyük dil modeli kullanılarak analiz edilir. Her yorum duygu durumu ve ilgili kategori açısından değerlendirilir.
+
+Elde edilen sonuçlar AnalysisEnrichmentService katmanına aktarılır ve burada ileri düzey iş zekâsı analizleri gerçekleştirilir. Son aşamada tüm sonuçlar görselleştirilir ve raporlanır.
+
+---
+
+## 🚀 AnalysisEnrichmentService
+
+AnalysisEnrichmentService, temel duygu analizi sonuçlarını stratejik iş zekâsı çıktılarına dönüştüren geliştirilmiş analiz katmanıdır.
+
+Bu katman sayesinde yalnızca müşteri memnuniyeti değil, memnuniyetin arkasındaki nedenler ve işletmeler için anlamlı karar destek verileri de elde edilmektedir.
+
+### 🔍 Kök Neden Analizi
+
+Olumsuz müşteri deneyimlerine neden olan temel problemler otomatik olarak belirlenmektedir.
+
+Sistem, yorumlar içerisinde tekrar eden olumsuz temaları tespit ederek kalite, teslimat, paketleme ve fiyat gibi alanlarda işletmelere iyileştirme önerileri sunmaktadır.
+
+### ⚠️ Risk Erken Uyarı Sistemi
+
+Geçmiş analiz sonuçları ile mevcut analiz sonuçları karşılaştırılarak müşteri memnuniyetindeki değişimler takip edilmektedir.
+
+Risk seviyeleri;
+
+- Düşük Risk
+- Orta Risk
+- Yüksek Risk
+- Kritik Risk
+
+olarak sınıflandırılmaktadır.
+
+### 💰 Fiyat Algısı Analizi
+
+Kullanıcıların ürünü ekonomik açıdan nasıl değerlendirdiği analiz edilmektedir.
+
+Fiyat-performans odaklı yorumlar incelenerek müşterilerin fiyat algısı belirlenmektedir.
+
+### 📢 Tavsiye Etme Eğilimi Analizi
+
+Yorumlardan elde edilen ifadeler kullanılarak kullanıcıların ürünü başkalarına önerme potansiyeli hesaplanmaktadır.
+
+Bu analiz müşteri memnuniyetinin gelecekteki etkilerini değerlendirmek amacıyla kullanılmaktadır.
+
+### ❤️ Müşteri Sadakati Analizi
+
+Tekrar satın alma davranışı ve marka bağlılığı gösteren yorumlar analiz edilmektedir.
+
+Sadakat sinyalleri sayesinde müşterilerin markaya olan bağlılık düzeyi değerlendirilebilmektedir.
+
+---
+
+## 🏆 Karşılaştırmalı İş Zekâsı Motoru
+
+SentimentHub'ın en önemli bileşenlerinden biri Karşılaştırmalı İş Zekâsı Modülü'dür.
+
+Bu modül sayesinde farklı ürünler ortak bir değerlendirme çerçevesinde analiz edilerek performans karşılaştırmaları gerçekleştirilmektedir.
+
+### Üretilen Çıktılar
+
+- Kazanan Ürün Tespiti
+- Karar Güven Skoru
+- Kategori Dominansı
+- Duygu Tutarlılığı
+- Alıcı Persona Uyumu
+- Geçiş Öngörüsü
+- Karar Gerekçesi
+
+Karşılaştırma sonuçları sayesinde kullanıcı yorumları yalnızca analiz edilmekle kalmaz, aynı zamanda işletmeler için stratejik karar destek verilerine dönüştürülür.
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+### Backend
+
+- ASP.NET Core MVC
+- C#
+- Entity Framework Core
+- ASP.NET Identity
+
+### Yapay Zekâ
+
+- Python
+- FastAPI
+- LM Studio
+- Large Language Models (LLM)
+- BERT Fallback
+
+### Veri Toplama
+
+- Selenium WebDriver
+- BeautifulSoup
+
+### Veritabanı
+
+- SQLite
+- SQL Server
+
+### Frontend
+
+- Bootstrap 5
+- JavaScript
+- Chart.js
+- HTML5 & CSS3
+
+  ---
+
+## 🏗️ Sistem Mimarisi
+
+SentimentHub, web uygulaması ve yapay zekâ servisinden oluşan iki katmanlı bir mimari üzerine geliştirilmiştir.
+
+```text
+Kullanıcı
+    │
+    ▼
+ASP.NET Core MVC Web Uygulaması
+    │
+    ├── Kullanıcı Yönetimi
+    ├── Analiz Yönetimi
+    ├── Karşılaştırma Modülü
+    ├── PDF Raporlama
+    │
+    ▼
+Python FastAPI Servisi
+    │
+    ├── Veri Toplama
+    ├── Duygu Analizi
+    ├── Boyut Analizi
+    │
+    ▼
+LM Studio
+(Yerel Büyük Dil Modeli)
+    │
+    ▼
+SQLite / SQL Server
+```
+
+Web uygulaması kullanıcı etkileşimlerini yönetirken, Python servis katmanı yorumların toplanması ve yapay zekâ analizlerinin gerçekleştirilmesinden sorumludur.
+
+Bu mimari sayesinde sistem modüler, ölçeklenebilir ve sürdürülebilir bir yapıya sahiptir.
+
+---
+
+## 🗄️ Veritabanı Yapısı
+
+SentimentHub içerisinde kullanıcılar, analizler, yorumlar ve karşılaştırma sonuçları ilişkisel veritabanı yapısında saklanmaktadır.
+
+### Temel Varlıklar
+
+#### ApplicationUser
+
+Sisteme giriş yapan kullanıcı bilgilerini tutar.
+
+#### Business
+
+Kullanıcıya ait işletme kayıtlarını saklar.
+
+#### Analysis
+
+Gerçekleştirilen analiz işlemlerine ait bilgileri içerir.
+
+#### Review
+
+Toplanan kullanıcı yorumlarını saklar.
+
+#### AspectResult
+
+Her yorum için oluşturulan kategori bazlı analiz sonuçlarını içerir.
+
+#### ComparisonReport
+
+Karşılaştırmalı analiz sonuçlarını saklar.
+
+Bu yapı sayesinde analiz geçmişi, kullanıcı verileri ve karşılaştırma sonuçları merkezi olarak yönetilebilmektedir.
+
+---
+
+## ⚙️ Kurulum
+
+### Gereksinimler
+
+- .NET 8 SDK
+- Python 3.11 veya üzeri
+- LM Studio
+- Google Chrome
+- SQLite veya SQL Server
+
+### Depoyu Klonlayın
+
+```bash
+git clone https://github.com/taskesermekselina/SentimentHub.git
+```
+
+### Web Uygulamasını Başlatın
+
+```bash
+cd SentimentHub.Web
+dotnet run
+```
+
+### Yapay Zekâ Servisini Başlatın
+
+```bash
+cd SentimentHub.AI
+uvicorn main:app --reload
+```
+
+### LM Studio
+
+LM Studio üzerinde uygun bir büyük dil modeli çalıştırılmalı ve yerel API servisi aktif hale getirilmelidir.
+
+Varsayılan API adresi:
+
+```text
+http://localhost:1234/v1
+```
+
+---
+
+## 📊 Proje Çıktıları
+
+SentimentHub aşağıdaki analiz ve karar destek çıktılarını üretmektedir:
+
+- Genel Memnuniyet Skoru
+- Duygu Dağılımı
+- Kategori Bazlı Performans Sonuçları
+- Güçlü ve Zayıf Yönler
+- Kök Neden Analizi
+- Risk Erken Uyarıları
+- Fiyat Algısı Değerlendirmesi
+- Tavsiye Etme Eğilimi
+- Müşteri Sadakati Göstergeleri
+- Rakip Ürün Karşılaştırmaları
+- Karar Güven Skoru
+- Persona Uyumu Analizi
+- PDF Raporları
+
+---
+
+## 🎓 Akademik Çalışma
+
+Bu proje, Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kapsamında gerçekleştirilen lisans tezinin uygulama çıktısı olarak geliştirilmiştir.
+
+### Tez Başlığı
+
+**E-Ticaret Platformlarındaki Kullanıcı Yorumlarının Yapay Zekâ ile Analizi ve Karşılaştırmalı İş Zekâsı Sistemi Geliştirilmesi: SentimentHub Uygulaması**
+
+### Akademik Katkılar
+
+- Yerel büyük dil modellerinin e-ticaret yorum analizlerinde kullanımı
+- Boyut tabanlı duygu analizi yaklaşımının uygulanması
+- AnalysisEnrichmentService katmanının geliştirilmesi
+- Risk erken uyarı mekanizması
+- Tavsiye etme eğilimi ve müşteri sadakati analizleri
+- Karşılaştırmalı iş zekâsı yaklaşımının geliştirilmesi
+- Yapay zekâ destekli karar destek sistemi tasarımı
+
+---
+
+## 🚀 Gelecek Çalışmalar
+
+Planlanan geliştirmeler:
+
+- Amazon, Hepsiburada ve N11 desteği
+- Çoklu dil desteği
+- Gerçek zamanlı analiz sistemi
+- Mobil uygulama geliştirilmesi
+- Tahminsel analiz modelleri
+- API servislerinin yayınlanması
+- Gelişmiş LLM entegrasyonları
+- Bildirim ve alarm sistemi
+
+---
+
+## 👩‍💻 Geliştirici
+
+**Mekselina Taşkeser**
+
+Yönetim Bilişim Sistemleri  
+Bursa Uludağ Üniversitesi
+
+### İletişim
+
+GitHub:
+https://github.com/taskesermekselina
+
+LinkedIn:
+www.linkedin.com/in/mekselina-taskeser
+
+---
+
+## 📜 Lisans
+
+Bu proje eğitim ve akademik araştırma amacıyla geliştirilmiştir.
+
+
