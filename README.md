@@ -471,7 +471,7 @@ Uygulama `https://localhost:5001` adresinde açılır.
 
 ## Geliştirici
 
-**Aynur Taşkeser Mekselina**
+**Mekselina Taşkeser**
 
 Bursa Uludağ Üniversitesi · İnegöl İşletme Fakültesi · Yönetim Bilişim Sistemleri
 
