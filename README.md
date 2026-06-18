@@ -350,8 +350,17 @@ Bu proje Bursa Uludağ Üniversitesi Yönetim Bilişim Sistemleri Bölümü kaps
 ## Uygulama Görselleri
 
 ### Ana Sayfa
+<table>
+<tr>
+<td>
 <img width="1892" height="873" alt="ANSYF1" src="https://github.com/user-attachments/assets/8a306708-f24c-4b9a-b6b4-829828d60d5f" />
+</td>
+        
+<td>
 <img width="1902" height="617" alt="ANSYF2" src="https://github.com/user-attachments/assets/ee02d556-69c9-4f6e-8d4b-e6efb44b7625" />
+</td>
+</tr>
+        
 <img width="1882" height="916" alt="ANSYF3" src="https://github.com/user-attachments/assets/a490dcc5-5af5-43f4-a076-d1a79e422e31" />
 <img width="1877" height="856" alt="ANSYF4" src="https://github.com/user-attachments/assets/927ac949-5fef-426c-adb6-d88fd3a67166" />
 <img width="1893" height="682" alt="ANSYF5" src="https://github.com/user-attachments/assets/ddf83a04-8ab7-49bc-a4eb-ddd6ded67c10" />
